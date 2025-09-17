@@ -61,6 +61,7 @@ class DashboardView extends StatelessWidget {
       matchStore.startRaid(configStore.raidSeconds);
     }
 
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xFF0F1115),
       appBar: AppBar(
@@ -152,14 +153,18 @@ class DashboardView extends StatelessWidget {
                         'RAID TIMER',
                         style: TextStyle(
                             color: Colors.white70,
-                            fontSize: 14,
+                            fontSize: 50,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         formatDuration(matchStore.raidRemaining),
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: Color(0xFF00E5FF),
-                            fontSize: 48,
+                            fontSize: screenWidth < 600
+                                ? 80
+                                : screenWidth < 900
+                                    ? 100
+                                    : 150,
                             fontWeight: FontWeight.w900),
                       ),
                       Row(
@@ -258,6 +263,8 @@ class DashboardView extends StatelessWidget {
     VoidCallback onDec,
     VoidCallback onFoul,
   ) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF1E1E28),
@@ -275,32 +282,41 @@ class DashboardView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 00,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                teamName.toUpperCase(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(width: 8),
-              // const Icon(Icons.edit, color: Colors.white54, size: 24),
-            ],
-          ),
-          const SizedBox(height: 15),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
           Text(
-            score.toString().padLeft(2, '0'),
-            style: const TextStyle(
-              color: Color(0xFF00FFAA),
-              fontSize: 180,
-              fontWeight: FontWeight.w900,
+            teamName.toUpperCase(),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          // const SizedBox(width: 8),
+          // const Icon(Icons.edit, color: Colors.white54, size: 24),
+          //   ],
+          // ),
+          // const SizedBox(height: 15),
+          Text(score.toString().padLeft(2, '0'),
+              style: TextStyle(
+                  color: Color(0xFF00FFAA),
+                  fontSize: screenWidth < 600
+                      ? 100
+                      : screenWidth < 900
+                          ? 175
+                          : screenWidth < 1200
+                              ? 250
+                              : 275,
+                  fontWeight: FontWeight.w900,
+                  fontStyle: FontStyle.normal),
+              maxLines: 1,
+              textAlign: TextAlign.center),
+
+          // const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
