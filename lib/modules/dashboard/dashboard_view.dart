@@ -17,24 +17,6 @@ class DashboardView extends StatelessWidget {
     return '$minutes:$seconds';
   }
 
-  // Play both long beep and buzzer sounds for button clicks
-  void _playButtonSounds() async {
-    // Ensure you have these sound files in your assets folder
-    // e.g., assets/sounds/longbeep.mp3 and assets/sounds/buzzer.mp3
-    // and declare them in pubspec.yaml
-    await _audioPlayer.setReleaseMode(ReleaseMode.stop);
-    await _audioPlayer.play(AssetSource('sounds/longbeep.mp3'));
-    await _audioPlayer.play(AssetSource('sounds/buzzer.mp3'));
-  }
-
-  // Dedicated function for the 'Beep' sound with SnackBar feedback
-  void _playBeepSound(BuildContext context) {
-    // TODO: Implement actual sound playback logic here.
-    // E.g., using an audio package like audioplayers
-    final player = AudioPlayer();
-    player.play(AssetSource('sounds/longbeep.mp3'));
-  }
-
   // Dedicated function for the 'Buzzer' sound with SnackBar feedback
   void _playBuzzerSound(BuildContext context) {
     // TODO: Implement actual sound playback logic here.
