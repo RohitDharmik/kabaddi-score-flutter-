@@ -41,7 +41,7 @@ class _ConfigViewState extends State<ConfigView> {
   void _onSave() {
     if (_formKey.currentState?.validate() ?? false) {
       final config = context.read<ConfigStore>();
-      config.updateMatch(int.parse(_matchDurController.text));
+      config.updateMatchTime(int.parse(_matchDurController.text));
       config.updateRaid(int.parse(_raidDurController.text));
       config.updateTeamA(_teamAController.text.trim());
       config.updateTeamB(_teamBController.text.trim());
@@ -60,7 +60,7 @@ class _ConfigViewState extends State<ConfigView> {
       _teamBController.text = 'Team B';
     });
     // Optionally update store too
-    config.updateMatch(20);
+    config.updateMatchTime(20);
     config.updateRaid(30);
     config.updateTeamA('Team A');
     config.updateTeamB('Team B');

@@ -9,8 +9,11 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MatchStore()),
         ChangeNotifierProvider(create: (_) => ConfigStore()),
+        ChangeNotifierProxyProvider<ConfigStore, MatchStore>(
+          create: (context) => MatchStore(context.read<ConfigStore>()),
+          update: (context, config, previous) => MatchStore(config),
+        ),
       ],
       child: const KabaddiApp(),
     ),

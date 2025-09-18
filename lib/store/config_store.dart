@@ -1,14 +1,22 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class ConfigStore extends ChangeNotifier {
-  int matchMinutes = 20;
+  int matchMinutes = 30;
   int raidSeconds = 30;
   String teamA = "Team A";
   String teamB = "Team B";
 
-  void updateMatch(int minutes) {
-    matchMinutes = minutes;
+  void updateMatchTime(int minutes) {
+    print(minutes.toString() + " minutes set in config store");
+    this.matchMinutes = minutes;
     notifyListeners();
+
+    print(matchMinutes.toString() + " minutes set in config store");
+  }
+
+  void updateTime() {
+    print(this.matchMinutes.toString() + " minutes set in config store");
   }
 
   void updateRaid(int seconds) {

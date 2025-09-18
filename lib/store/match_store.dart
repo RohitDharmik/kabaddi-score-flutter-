@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:kabbadi_league/store/config_store.dart';
 
 class MatchStore with ChangeNotifier {
   int teamAScore = 0;
@@ -9,10 +10,29 @@ class MatchStore with ChangeNotifier {
   int teamAFouls = 0;
   int teamBFouls = 0;
 
+  // ConfigStore configStore = ConfigStore();
+
+  late Duration matchDuration = Duration(minutes: ConfigStore().matchMinutes);
+  late Duration matchRemaining;
+  late Duration raidDuration = Duration(minutes: ConfigStore().raidSeconds);
+  late Duration raidRemaining;
+  // Duration matchDuration = ;
+  final ConfigStore configStore;
+
+  MatchStore(this.configStore) {
+    // Initialize using configStore
+    print(ConfigStore().matchMinutes.toString() +
+        "123 minutes set in match store");
+    this.matchDuration = Duration(minutes: configStore.matchMinutes);
+    matchRemaining = matchDuration;
+    this.raidDuration = Duration(seconds: configStore.raidSeconds);
+    raidRemaining = raidDuration;
+  }
   final _timerBeepPlayer = AudioPlayer();
 
-  Duration matchDuration = const Duration(minutes: 20);
-  Duration raidDuration = const Duration(seconds: 30);
+  // Duration matchDuration = const Duration(minutes: configStore.matchMinutes);
+  // Duration raidDuration = const Duration(seconds: 30);
+  // Duration raidDuration = Duration(minutes: ConfigStore().raidSeconds);
 
   Timer? _matchTimer;
   Timer? _raidTimer;
@@ -20,8 +40,8 @@ class MatchStore with ChangeNotifier {
   bool isMatchRunning = false;
   bool isRaidRunning = false;
 
-  Duration matchRemaining = const Duration(minutes: 20);
-  Duration raidRemaining = const Duration(seconds: 30);
+  // Duration matchRemaining = const Duration(minutes: configStore.matchMinutes);
+  // Duration raidRemaining = const Duration(seconds: 30);
 
   // Play a unique beep sound for timers
   void _playTimerBeep() async {
@@ -45,7 +65,6 @@ class MatchStore with ChangeNotifier {
 
     _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (matchRemaining.inSeconds <= 0) {
-        stopMatch();
       } else {
         matchRemaining = matchRemaining - const Duration(seconds: 1);
 
@@ -68,15 +87,52 @@ class MatchStore with ChangeNotifier {
     });
   }
 
+  void pauseAndPlay() {
+    if (isMatchRunning) {
+      _matchTimer?.cancel();
+      isMatchRunning = false;
+      notifyListeners();
+    } else {
+      _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (matchRemaining.inSeconds <= 0) {
+        } else {
+          matchRemaining = matchRemaining - const Duration(seconds: 1);
+
+          // Sound logic for Match Timer
+          if (matchRemaining.inMinutes == 5 &&
+              matchRemaining.inSeconds % 60 == 0) {
+            _playTimerBeep(); // Last 5 minutes, 1 beep every minute
+          }
+          if (matchRemaining.inMinutes == 2 &&
+              matchRemaining.inSeconds % 30 == 0) {
+            _playTimerBeep(); // Last 2 minutes, 1 beep every 30 seconds
+          }
+          if (matchRemaining.inMinutes == 0 &&
+              matchRemaining.inSeconds % 10 == 0) {
+            _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
+          }
+
+          notifyListeners();
+        }
+      });
+      isMatchRunning = true;
+    }
+  }
+
   void stopMatch() {
-    _matchTimer?.cancel();
-    _matchTimer = null;
-    isMatchRunning = false;
+    if (_matchTimer != null) {
+      _matchTimer?.cancel();
+      _matchTimer = null;
+      isMatchRunning = false;
+    } else {
+      startMatch(matchDuration.inMinutes);
+    }
     notifyListeners();
   }
 
   void resetMatch() {
     stopMatch();
+    // isMatchRunning = false;
     matchRemaining = matchDuration;
     notifyListeners();
   }
