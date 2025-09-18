@@ -45,7 +45,6 @@ class MatchStore with ChangeNotifier {
 
     _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (matchRemaining.inSeconds <= 0) {
-        stopMatch();
       } else {
         matchRemaining = matchRemaining - const Duration(seconds: 1);
 
@@ -68,15 +67,52 @@ class MatchStore with ChangeNotifier {
     });
   }
 
+  void pauseAndPlay() {
+    if (isMatchRunning) {
+      _matchTimer?.cancel();
+      isMatchRunning = false;
+      notifyListeners();
+    } else {
+      _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (matchRemaining.inSeconds <= 0) {
+        } else {
+          matchRemaining = matchRemaining - const Duration(seconds: 1);
+
+          // Sound logic for Match Timer
+          if (matchRemaining.inMinutes == 5 &&
+              matchRemaining.inSeconds % 60 == 0) {
+            _playTimerBeep(); // Last 5 minutes, 1 beep every minute
+          }
+          if (matchRemaining.inMinutes == 2 &&
+              matchRemaining.inSeconds % 30 == 0) {
+            _playTimerBeep(); // Last 2 minutes, 1 beep every 30 seconds
+          }
+          if (matchRemaining.inMinutes == 0 &&
+              matchRemaining.inSeconds % 10 == 0) {
+            _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
+          }
+
+          notifyListeners();
+        }
+      });
+      isMatchRunning = true;
+    }
+  }
+
   void stopMatch() {
-    _matchTimer?.cancel();
-    _matchTimer = null;
-    isMatchRunning = false;
+    if (_matchTimer != null) {
+      _matchTimer?.cancel();
+      _matchTimer = null;
+      isMatchRunning = false;
+    } else {
+      startMatch(matchDuration.inMinutes);
+    }
     notifyListeners();
   }
 
   void resetMatch() {
     stopMatch();
+    // isMatchRunning = false;
     matchRemaining = matchDuration;
     notifyListeners();
   }

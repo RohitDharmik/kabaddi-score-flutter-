@@ -139,9 +139,7 @@ class DashboardView extends StatelessWidget {
                               icon: matchStore.isMatchRunning
                                   ? Icons.pause
                                   : Icons.play_arrow,
-                              onPressed: matchStore.isMatchRunning
-                                  ? matchStore.stopMatch
-                                  : onStartMatch),
+                              onPressed: matchStore.pauseAndPlay),
                           const SizedBox(width: 8),
                           _timerButton(
                               icon: Icons.refresh,
