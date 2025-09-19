@@ -30,7 +30,7 @@ class HomeView extends StatelessWidget {
                     DateTime today = DateTime.now();
 
                     DateTime cutoffDate =
-                        DateFormat("dd/MM/yyyy").parse("27/01/2026");
+                        DateFormat("dd/MM/yyyy").parse("27/02/2026");
                     // DateTime cutoffDate =
                     //     DateFormat("dd/MM/yyyy").parse("18/09/2025");
 

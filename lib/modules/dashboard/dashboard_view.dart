@@ -188,24 +188,6 @@ class DashboardView extends StatelessWidget {
             const SizedBox(height: 24),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.refresh,
-                  color: Colors.white,
-                  size: 24,
-                ),
-                onPressed: matchStore.resetAll,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF4D4D),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 48, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-                label: const Text('RESET ALL DATA',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-              const SizedBox(width: 24),
-              ElevatedButton.icon(
                 icon: Icon(
                   Icons.arrow_back,
                   color: Colors.white,
@@ -219,6 +201,24 @@ class DashboardView extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8))),
                 label: Text("Back",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+              ),
+              const SizedBox(width: 24),
+              ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                onPressed: matchStore.resetAll,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF4D4D),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 48, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                label: const Text('RESET ALL DATA',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ),
@@ -319,7 +319,7 @@ class DashboardView extends StatelessWidget {
                   fontSize: screenWidth < 600
                       ? 100
                       : screenWidth < 900
-                          ? 175
+                          ? 125
                           : screenWidth < 1200
                               ? 250
                               : 275,
