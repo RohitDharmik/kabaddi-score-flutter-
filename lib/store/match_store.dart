@@ -139,6 +139,7 @@ class MatchStore with ChangeNotifier {
 
   // Updated `startRaid` with sound logic and duration parameter
   void startRaid(int raidSeconds) {
+    print(raidSeconds.toString() + " raidraidSeconds");
     if (_raidTimer != null) return;
     isRaidRunning = true;
     raidDuration = Duration(seconds: raidSeconds);
@@ -162,10 +163,38 @@ class MatchStore with ChangeNotifier {
     });
   }
 
+  void pauseAndPlayRaid() {
+    if (isRaidRunning) {
+      _raidTimer?.cancel();
+      isRaidRunning = false;
+      notifyListeners();
+    } else {
+      _raidTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (raidRemaining.inSeconds <= 0) {
+          stopRaid();
+        } else {
+          raidRemaining = raidRemaining - const Duration(seconds: 1);
+
+          // Sound logic for Raid Timer
+          if (raidRemaining.inSeconds <= 10 && raidRemaining.inSeconds > 0) {
+            _playTimerBeep(); // Last 10 seconds, 1 beep every second
+          }
+          if (raidRemaining.inSeconds == 0) {
+            _playTimerBuzzer(); // Raid over beep
+          }
+
+          notifyListeners();
+        }
+      });
+      isRaidRunning = true;
+    }
+  }
+
   void stopRaid() {
     _raidTimer?.cancel();
     _raidTimer = null;
     isRaidRunning = false;
+    raidRemaining = raidDuration;
     notifyListeners();
   }
 
@@ -203,6 +232,11 @@ class MatchStore with ChangeNotifier {
   void recordFoulB() {
     teamBFouls++;
     notifyListeners();
+  }
+
+  void back(BuildContext context) {
+    Navigator.pop(context);
+    resetAll();
   }
 
   void resetAll() {
