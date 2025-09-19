@@ -35,21 +35,21 @@ class DashboardView extends StatelessWidget {
     final matchStore = context.watch<MatchStore>();
     final configStore = context.watch<ConfigStore>();
 
-    onStartMatch() {
-      matchStore.startMatch(configStore.matchMinutes);
-    }
+    // onStartMatch() {
+    //   matchStore.startMatch(configStore.matchMinutes);
+    // }
 
-    onStartRaid() {
-      matchStore.startRaid(configStore.raidSeconds);
-    }
+    // onStartRaid() {
+    //   matchStore.startRaid(configStore.raidSeconds);
+    // }
 
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xFF0F1115),
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        backgroundColor: Colors.black,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Dashboard'),
+      //   backgroundColor: Colors.black,
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -80,6 +80,7 @@ class DashboardView extends StatelessWidget {
 
             // Scoreboard and Timers Section
             Expanded(
+              flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -128,7 +129,7 @@ class DashboardView extends StatelessWidget {
                               onPressed: matchStore.resetMatch),
                         ],
                       ),
-                      const SizedBox(height: 32),
+                      // const SizedBox(height: 32),
                       const Text(
                         'RAID TIMER',
                         style: TextStyle(
@@ -143,8 +144,8 @@ class DashboardView extends StatelessWidget {
                             fontSize: screenWidth < 600
                                 ? 80
                                 : screenWidth < 900
-                                    ? 100
-                                    : 150,
+                                    ? 90
+                                    : 120,
                             fontWeight: FontWeight.w900),
                       ),
                       Row(
@@ -153,9 +154,12 @@ class DashboardView extends StatelessWidget {
                               icon: matchStore.isRaidRunning
                                   ? Icons.pause
                                   : Icons.play_arrow,
-                              onPressed: matchStore.isRaidRunning
-                                  ? matchStore.stopRaid
-                                  : onStartRaid),
+                              onPressed: matchStore.pauseAndPlayRaid
+                              // matchStore.isRaidRunning
+                              //     ? matchStore.stopRaid
+                              //     : onStartRaid
+
+                              ),
                           const SizedBox(width: 8),
                           _timerButton(
                               icon: Icons.refresh,
@@ -182,18 +186,46 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: matchStore.resetAll,
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFF4D4D),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8))),
-              child: const Text('RESET ALL DATA',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                onPressed: matchStore.resetAll,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF4D4D),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 48, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                label: const Text('RESET ALL DATA',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+              ),
+              const SizedBox(width: 24),
+              ElevatedButton.icon(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                onPressed: () => matchStore.back(context),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF4CAF50),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 48, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                label: Text("Back",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+              ),
+            ])
+            // const SizedBox(height: 24),
+
+            // const SizedBox(height: 24),
           ],
         ),
       ),
