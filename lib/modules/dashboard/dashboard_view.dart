@@ -303,8 +303,8 @@ class DashboardView extends StatelessWidget {
             teamName.toUpperCase(),
             style: TextStyle(
               color: Colors.white,
-              fontSize: 50,
-              fontWeight: FontWeight.bold,
+              fontSize: 60,
+              fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
           ),
