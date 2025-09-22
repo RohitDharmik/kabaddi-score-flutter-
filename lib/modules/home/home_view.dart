@@ -13,7 +13,7 @@ class HomeView extends StatelessWidget {
           children: [
             const Icon(Icons.emoji_events, color: Colors.cyan, size: 80),
             const SizedBox(height: 20),
-            const Text("Kabaddi League",
+            const Text("BARIHA DIGITAL",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
             const SizedBox(height: 40),
             Wrap(

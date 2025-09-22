@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'router.dart';
 import 'theme.dart';
 
@@ -8,7 +9,7 @@ class KabaddiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Kabaddi League',
+      title: 'BARIHA DIGITAL',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       initialRoute: '/',
