@@ -27,7 +27,14 @@ class DashboardView extends StatelessWidget {
   void _playDoOrDieSound(BuildContext context) {
     // TODO: Implement actual sound playback logic here.
     final player = AudioPlayer();
-    player.play(AssetSource('sounds/doordie.mp3'));
+    player.play(AssetSource('sounds/doordie2.mp3'));
+  }
+
+  void _playHalfTimerSound(BuildContext context) async {
+    final player = AudioPlayer();
+    player.play(AssetSource('sounds/halftime.mp3'));
+    // You must place your sound files in assets/sounds/shortbeep.mp3
+    // and declare the assets folder in pubspec.yaml
   }
 
   @override
@@ -54,7 +61,7 @@ class DashboardView extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               ElevatedButton.icon(
                 icon: Icon(
                   Icons.arrow_back,
@@ -73,33 +80,34 @@ class DashboardView extends StatelessWidget {
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 24),
-              ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.refresh,
-                  color: Colors.white,
-                  size: 24,
-                ),
-                onPressed: matchStore.resetAll,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF4D4D),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 48, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-                label: const Text('RESET ALL DATA',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
+              // ElevatedButton.icon(
+              //   icon: const Icon(
+              //     Icons.refresh,
+              //     color: Colors.white,
+              //     size: 24,
+              //   ),
+              //   onPressed: matchStore.resetAll,
+              //   style: ElevatedButton.styleFrom(
+              //       backgroundColor: const Color(0xFFFF4D4D),
+              //       padding: const EdgeInsets.symmetric(
+              //           horizontal: 48, vertical: 16),
+              //       shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(8))),
+              //   label: const Text('RESET ALL DATA',
+              //       style: TextStyle(
+              //           color: Colors.white, fontWeight: FontWeight.bold)),
+              // ),
             ]),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // _soundButton(
-                //   icon: Icons.volume_up,
-                //   label: 'Beep',
-                //   onPressed: () => _playBeepSound(context),
-                // ),
+                _soundButton(
+                  icon: Icons.volume_up,
+                  label: 'Half Time',
+                  onPressed: () => _playHalfTimerSound(context),
+                ),
+                const SizedBox(width: 16),
                 _soundButton(
                   icon: Icons.volume_up,
                   label: 'Do or Die',
@@ -138,20 +146,24 @@ class DashboardView extends StatelessWidget {
 
                   // Center Timer Section
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text(
-                        'MATCH TIMER',
-                        style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      // Text(
+                      //   'MATCH TIMER',
+                      //   style: TextStyle(
+                      //       color: Colors.white70,
+                      //       fontSize: 35,
+                      //       fontWeight: FontWeight.bold),
+                      // ),
                       Text(
                         formatDuration(matchStore.matchRemaining),
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: Color(0xFF00FFAA),
-                            fontSize: 72,
+                            fontSize: screenWidth < 600
+                                ? 80
+                                : screenWidth < 900
+                                    ? 90
+                                    : 120,
                             fontWeight: FontWeight.w900),
                       ),
                       Row(
@@ -198,7 +210,7 @@ class DashboardView extends StatelessWidget {
                               //     : onStartRaid
 
                               ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: 4),
                           _timerButton(
                               icon: Icons.refresh,
                               onPressed: matchStore.resetRaid),
@@ -206,7 +218,7 @@ class DashboardView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(width: 24),
+                  const SizedBox(width: 14),
 
                   // Team B Panel
                   Expanded(

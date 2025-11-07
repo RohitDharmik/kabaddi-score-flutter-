@@ -40,6 +40,10 @@ class MatchStore with ChangeNotifier {
   bool isMatchRunning = false;
   bool isRaidRunning = false;
 
+  // flags to ensure sounds play only once per match lifecycle
+  bool _halfTimePlayed = false;
+  bool _startSoundPlayed = false;
+
   // Duration matchRemaining = const Duration(minutes: configStore.matchMinutes);
   // Duration raidRemaining = const Duration(seconds: 30);
 
@@ -50,10 +54,26 @@ class MatchStore with ChangeNotifier {
     await _timerBeepPlayer.play(AssetSource('sounds/shortbeep.mp3'));
   }
 
+  void _timeOverSound() async {
+    await _timerBeepPlayer.play(AssetSource('sounds/timeover.mp3'));
+  }
+
   void _playTimerBuzzer() async {
     // You must place your sound files in assets/sounds/shortbeep.mp3
     // and declare the assets folder in pubspec.yaml
     await _timerBeepPlayer.play(AssetSource('sounds/buzzer.mp3'));
+  }
+
+  void _playHalfTimerSound() async {
+    // You must place your sound files in assets/sounds/shortbeep.mp3
+    // and declare the assets folder in pubspec.yaml
+    await _timerBeepPlayer.play(AssetSource('sounds/halftime.mp3'));
+  }
+
+  void _playStartTimerSound() async {
+    // You must place your sound files in assets/sounds/shortbeep.mp3
+    // and declare the assets folder in pubspec.yaml
+    await _timerBeepPlayer.play(AssetSource('sounds/matchstart.mp3'));
   }
 
   // Updated `startMatch` with sound logic and duration parameter
@@ -62,13 +82,33 @@ class MatchStore with ChangeNotifier {
     isMatchRunning = true;
     matchDuration = Duration(minutes: matchMinutes);
     matchRemaining = matchDuration;
+    // new match: reset flags and play start sound
+    _halfTimePlayed = false;
+    _startSoundPlayed = true;
+    _playStartTimerSound();
 
     _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (matchRemaining.inSeconds <= 0) {
+        // ensure final state
+        _timeOverSound();
+        _matchTimer?.cancel();
+        _matchTimer = null;
+        isMatchRunning = false;
+        matchRemaining = Duration.zero;
+        notifyListeners();
       } else {
         matchRemaining = matchRemaining - const Duration(seconds: 1);
 
-        // Sound logic for Match Timer
+        // play halftime once when remaining equals half the original duration
+        // final halfSeconds = matchDuration.inSeconds ~/ 2;
+        // if (!_halfTimePlayed &&
+        //     matchRemaining.inSeconds == halfSeconds &&
+        //     matchRemaining.inSeconds % 60 == 0) {
+        //   _halfTimePlayed = true;
+        //   _playHalfTimerSound();
+        // }
+
+        // Sound logic for Match Timer (beeps)
         if (matchRemaining.inMinutes == 5 &&
             matchRemaining.inSeconds % 60 == 0) {
           _playTimerBeep(); // Last 5 minutes, 1 beep every minute
@@ -82,6 +122,14 @@ class MatchStore with ChangeNotifier {
           _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
         }
 
+        // if time reaches 00:00 after decrement, play time-over and stop
+        if (matchRemaining.inMinutes == 0 && matchRemaining.inSeconds == 0) {
+          _timeOverSound();
+          _matchTimer?.cancel();
+          _matchTimer = null;
+          isMatchRunning = false;
+        }
+
         notifyListeners();
       }
     });
@@ -93,12 +141,34 @@ class MatchStore with ChangeNotifier {
       isMatchRunning = false;
       notifyListeners();
     } else {
+      // If starting from full remaining time, treat as first start and play start sound
+      if (!_startSoundPlayed && matchRemaining == matchDuration) {
+        _startSoundPlayed = true;
+        _halfTimePlayed = false;
+        _playStartTimerSound();
+      }
+
       _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (matchRemaining.inSeconds <= 0) {
+          _timeOverSound();
+          _matchTimer?.cancel();
+          _matchTimer = null;
+          isMatchRunning = false;
+          matchRemaining = Duration.zero;
+          notifyListeners();
         } else {
           matchRemaining = matchRemaining - const Duration(seconds: 1);
 
-          // Sound logic for Match Timer
+          // play halftime once when remaining equals half the original duration
+          // final halfSeconds = matchDuration.inSeconds ~/ 2;
+          // if (!_halfTimePlayed &&
+          //     matchRemaining.inSeconds == halfSeconds &&
+          //     matchRemaining.inSeconds % 60 == 0) {
+          //   _halfTimePlayed = true;
+          //   _playHalfTimerSound();
+          // }
+
+          // Sound logic for Match Timer (beeps)
           if (matchRemaining.inMinutes == 5 &&
               matchRemaining.inSeconds % 60 == 0) {
             _playTimerBeep(); // Last 5 minutes, 1 beep every minute
@@ -110,6 +180,14 @@ class MatchStore with ChangeNotifier {
           if (matchRemaining.inMinutes == 0 &&
               matchRemaining.inSeconds % 10 == 0) {
             _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
+          }
+
+          // if time reaches 00:00 after decrement, play time-over and stop
+          if (matchRemaining.inMinutes == 0 && matchRemaining.inSeconds == 0) {
+            _timeOverSound();
+            _matchTimer?.cancel();
+            _matchTimer = null;
+            isMatchRunning = false;
           }
 
           notifyListeners();
@@ -134,6 +212,8 @@ class MatchStore with ChangeNotifier {
     stopMatch();
     // isMatchRunning = false;
     matchRemaining = matchDuration;
+    _halfTimePlayed = false;
+    _startSoundPlayed = false;
     notifyListeners();
   }
 
