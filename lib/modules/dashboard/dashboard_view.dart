@@ -79,7 +79,7 @@ class DashboardView extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ),
-              const SizedBox(width: 24),
+
               // ElevatedButton.icon(
               //   icon: const Icon(
               //     Icons.refresh,
@@ -98,29 +98,7 @@ class DashboardView extends StatelessWidget {
               //           color: Colors.white, fontWeight: FontWeight.bold)),
               // ),
             ]),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _soundButton(
-                  icon: Icons.volume_up,
-                  label: 'Half Time',
-                  onPressed: () => _playHalfTimerSound(context),
-                ),
-                const SizedBox(width: 16),
-                _soundButton(
-                  icon: Icons.volume_up,
-                  label: 'Do or Die',
-                  onPressed: () => _playDoOrDieSound(context),
-                ),
-                const SizedBox(width: 16),
-                _soundButton(
-                  icon: Icons.notifications_active,
-                  label: 'Buzzer',
-                  onPressed: () => _playBuzzerSound(context),
-                ),
-              ],
-            ),
+
             const SizedBox(height: 24),
             // Sound Buttons Section
 
@@ -129,6 +107,7 @@ class DashboardView extends StatelessWidget {
               flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Team A Panel
                   Expanded(
@@ -236,7 +215,29 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             // const SizedBox(height: 24),
-
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _soundButton(
+                  icon: Icons.volume_up,
+                  label: 'Half Time',
+                  onPressed: () => _playHalfTimerSound(context),
+                ),
+                const SizedBox(width: 16),
+                _soundButton(
+                  icon: Icons.volume_up,
+                  label: 'Do or Die',
+                  onPressed: () => _playDoOrDieSound(context),
+                ),
+                const SizedBox(width: 16),
+                _soundButton(
+                  icon: Icons.notifications_active,
+                  label: 'Buzzer',
+                  onPressed: () => _playBuzzerSound(context),
+                ),
+              ],
+            ),
             // const SizedBox(height: 24),
           ],
         ),

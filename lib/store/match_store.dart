@@ -90,12 +90,12 @@ class MatchStore with ChangeNotifier {
     _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (matchRemaining.inSeconds <= 0) {
         // ensure final state
-        _timeOverSound();
-        _matchTimer?.cancel();
-        _matchTimer = null;
-        isMatchRunning = false;
-        matchRemaining = Duration.zero;
-        notifyListeners();
+        // _timeOverSound();
+        // _matchTimer?.cancel();
+        // _matchTimer = null;
+        // isMatchRunning = false;
+        // matchRemaining = Duration.zero;
+        // notifyListeners();
       } else {
         matchRemaining = matchRemaining - const Duration(seconds: 1);
 
@@ -124,10 +124,10 @@ class MatchStore with ChangeNotifier {
 
         // if time reaches 00:00 after decrement, play time-over and stop
         if (matchRemaining.inMinutes == 0 && matchRemaining.inSeconds == 0) {
-          _timeOverSound();
-          _matchTimer?.cancel();
-          _matchTimer = null;
-          isMatchRunning = false;
+          // _timeOverSound();
+          // _matchTimer?.cancel();
+          // _matchTimer = null;
+          // isMatchRunning = false;
         }
 
         notifyListeners();
@@ -150,12 +150,12 @@ class MatchStore with ChangeNotifier {
 
       _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (matchRemaining.inSeconds <= 0) {
-          _timeOverSound();
-          _matchTimer?.cancel();
-          _matchTimer = null;
-          isMatchRunning = false;
-          matchRemaining = Duration.zero;
-          notifyListeners();
+          // _timeOverSound();
+          // _matchTimer?.cancel();
+          // _matchTimer = null;
+          // isMatchRunning = false;
+          // matchRemaining = Duration.zero;
+          // notifyListeners();
         } else {
           matchRemaining = matchRemaining - const Duration(seconds: 1);
 
@@ -184,10 +184,10 @@ class MatchStore with ChangeNotifier {
 
           // if time reaches 00:00 after decrement, play time-over and stop
           if (matchRemaining.inMinutes == 0 && matchRemaining.inSeconds == 0) {
-            _timeOverSound();
-            _matchTimer?.cancel();
-            _matchTimer = null;
-            isMatchRunning = false;
+            // _timeOverSound();
+            // _matchTimer?.cancel();
+            // _matchTimer = null;
+            // isMatchRunning = false;
           }
 
           notifyListeners();
