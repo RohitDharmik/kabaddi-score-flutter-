@@ -177,7 +177,7 @@ class _DashboardViewState extends State<DashboardView> {
                       Text(
                         formatDuration(matchStore.matchRemaining),
                         style: TextStyle(
-                            color: Color(0xFF4CAF50),
+                            color: Color(0xFF00FFAA),
                             fontSize: screenWidth < 600
                                 ? 80
                                 : screenWidth < 900
@@ -199,13 +199,19 @@ class _DashboardViewState extends State<DashboardView> {
                         ],
                       ),
                       // const SizedBox(height: 32),
-                      const Text(
-                        'RAID TIMER',
-                        style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      // const Text(
+                      //   'RAID TIMER',
+                      //   style: TextStyle(
+                      //       color: Colors.white70,
+                      //       fontSize: 50,
+                      //       fontWeight: FontWeight.bold),
+                      // ),
+                      const SizedBox(height: 20),
+
+                      iconButton(Icons.sync, () {
+                        matchStore.swapSides();
+                        // matchStore.startRaid(configStore.raidSeconds);
+                      }),
                       Text(
                         formatDuration(matchStore.raidRemaining),
                         style: TextStyle(
@@ -285,6 +291,20 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  Widget iconButton(IconData icon, VoidCallback onPressed) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF2B2B33),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFF4A4A5A), width: 1),
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: Colors.white),
+        onPressed: onPressed,
+      ),
+    );
+  }
+
   Widget _soundButton(
       {required IconData icon,
       required String label,
@@ -355,7 +375,7 @@ class _DashboardViewState extends State<DashboardView> {
           Text(
             teamName.toUpperCase(),
             style: TextStyle(
-              color: Color(0xFF00E5FF),
+              color: Colors.white,
               fontSize: 60,
               fontWeight: FontWeight.w500,
             ),
@@ -368,7 +388,7 @@ class _DashboardViewState extends State<DashboardView> {
           // const SizedBox(height: 15),
           Text(score.toString().padLeft(2, '0'),
               style: TextStyle(
-                  color: Color(0xFF4CAF50),
+                  color: Color(0xFF00FFAA),
                   fontSize: screenWidth < 600
                       ? 100
                       : screenWidth < 900
