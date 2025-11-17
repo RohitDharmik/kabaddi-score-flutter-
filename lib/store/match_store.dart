@@ -54,9 +54,9 @@ class MatchStore with ChangeNotifier {
     await _timerBeepPlayer.play(AssetSource('sounds/shortbeep.mp3'));
   }
 
-  void _timeOverSound() async {
-    await _timerBeepPlayer.play(AssetSource('sounds/timeover.mp3'));
-  }
+  // void _timeOverSound() async {
+  //   await _timerBeepPlayer.play(AssetSource('sounds/timeover.mp3'));
+  // }
 
   void _playTimerBuzzer() async {
     // You must place your sound files in assets/sounds/shortbeep.mp3
@@ -64,11 +64,11 @@ class MatchStore with ChangeNotifier {
     await _timerBeepPlayer.play(AssetSource('sounds/buzzer.mp3'));
   }
 
-  void _playHalfTimerSound() async {
-    // You must place your sound files in assets/sounds/shortbeep.mp3
-    // and declare the assets folder in pubspec.yaml
-    await _timerBeepPlayer.play(AssetSource('sounds/halftime.mp3'));
-  }
+  // void _playHalfTimerSound() async {
+  //   // You must place your sound files in assets/sounds/shortbeep.mp3
+  //   // and declare the assets folder in pubspec.yaml
+  //   await _timerBeepPlayer.play(AssetSource('sounds/halftime.mp3'));
+  // }
 
   void _playStartTimerSound() async {
     // You must place your sound files in assets/sounds/shortbeep.mp3
