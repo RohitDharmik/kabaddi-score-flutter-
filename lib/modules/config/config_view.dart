@@ -96,7 +96,7 @@ class _ConfigViewState extends State<ConfigView> {
                   if (value == null || value.isEmpty) {
                     return 'Enter match duration';
                   }
-                  final v = int.tryParse(value);
+                  // final v = int.tryParse(value);
                   // if (v == null || v < 5 || v > 60) {
                   //   return 'Enter between 5 and 60';
                   // }

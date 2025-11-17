@@ -6,7 +6,7 @@ import '../../store/config_store.dart';
 import '../../store/match_store.dart';
 
 // Create a global AudioPlayer instance for sound buttons
-final _audioPlayer = AudioPlayer();
+// final _audioPlayer = AudioPlayer();
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -25,13 +25,11 @@ class _DashboardViewState extends State<DashboardView> {
 
   // Dedicated function for the 'Buzzer' sound with SnackBar feedback
   void _playBuzzerSound(BuildContext context) {
-    // TODO: Implement actual sound playback logic here.
     final player = AudioPlayer();
     player.play(AssetSource('sounds/buzzer.mp3'));
   }
 
   void _playDoOrDieSound(BuildContext context) {
-    // TODO: Implement actual sound playback logic here.
     final player = AudioPlayer();
     player.play(AssetSource('sounds/doordie2.mp3'));
   }
