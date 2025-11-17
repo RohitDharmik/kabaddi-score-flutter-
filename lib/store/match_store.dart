@@ -76,6 +76,22 @@ class MatchStore with ChangeNotifier {
     await _timerBeepPlayer.play(AssetSource('sounds/matchstart.mp3'));
   }
 
+  void swapSides() {
+    final tempScore = teamAScore;
+    teamAScore = teamBScore;
+    teamBScore = tempScore;
+
+    final tempFouls = teamAFouls;
+    teamAFouls = teamBFouls;
+    teamBFouls = tempFouls;
+
+    final tempName = configStore.teamA;
+    configStore.teamA = configStore.teamB;
+    configStore.teamB = tempName;
+
+    notifyListeners();
+  }
+
   // Updated `startMatch` with sound logic and duration parameter
   void startMatch(int matchMinutes) {
     if (_matchTimer != null) return;

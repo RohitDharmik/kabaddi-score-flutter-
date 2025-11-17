@@ -8,9 +8,15 @@ import '../../store/match_store.dart';
 // Create a global AudioPlayer instance for sound buttons
 final _audioPlayer = AudioPlayer();
 
-class DashboardView extends StatelessWidget {
+class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
 
+  @override
+  State<DashboardView> createState() => _DashboardViewState();
+}
+
+class _DashboardViewState extends State<DashboardView> {
+  int round = 1;
   String formatDuration(Duration d) {
     final minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
     final seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
@@ -33,6 +39,10 @@ class DashboardView extends StatelessWidget {
   void _playHalfTimerSound(BuildContext context) async {
     final player = AudioPlayer();
     player.play(AssetSource('sounds/halftime.mp3'));
+    setState(() {
+      // Call setState to update the UI
+      round = 2;
+    });
     // You must place your sound files in assets/sounds/shortbeep.mp3
     // and declare the assets folder in pubspec.yaml
   }
@@ -66,20 +76,50 @@ class DashboardView extends StatelessWidget {
                 icon: Icon(
                   Icons.arrow_back,
                   color: Colors.white,
-                  size: 24,
+                  size: 15,
                 ),
                 onPressed: () => matchStore.back(context),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF4CAF50),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 48, vertical: 16),
+                        horizontal: 30, vertical: 16),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
+                        borderRadius: BorderRadius.circular(15))),
                 label: Text("Back",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ),
 
+              // const Spacer(),
+
+              Expanded(
+                child: Center(
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1E28),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: const Color(0xFF3A3A4A), width: 1.5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        round.toString(),
+                        style: TextStyle(
+                          color: Color(0xFF4CAF50),
+                          fontSize: 30,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      )),
+                ),
+              ),
+              SizedBox(width: 110),
               // ElevatedButton.icon(
               //   icon: const Icon(
               //     Icons.refresh,
@@ -159,13 +199,19 @@ class DashboardView extends StatelessWidget {
                         ],
                       ),
                       // const SizedBox(height: 32),
-                      const Text(
-                        'RAID TIMER',
-                        style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      // const Text(
+                      //   'RAID TIMER',
+                      //   style: TextStyle(
+                      //       color: Colors.white70,
+                      //       fontSize: 50,
+                      //       fontWeight: FontWeight.bold),
+                      // ),
+                      const SizedBox(height: 20),
+
+                      iconButton(Icons.sync, () {
+                        matchStore.swapSides();
+                        // matchStore.startRaid(configStore.raidSeconds);
+                      }),
                       Text(
                         formatDuration(matchStore.raidRemaining),
                         style: TextStyle(
@@ -241,6 +287,20 @@ class DashboardView extends StatelessWidget {
             // const SizedBox(height: 24),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget iconButton(IconData icon, VoidCallback onPressed) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF2B2B33),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFF4A4A5A), width: 1),
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: Colors.white),
+        onPressed: onPressed,
       ),
     );
   }
