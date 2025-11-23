@@ -141,7 +141,7 @@ class _DashboardViewState extends State<DashboardView> {
                           round.toString(),
                           style: TextStyle(
                             color: Color(0xFF4CAF50),
-                            fontSize: 50,
+                            fontSize: 40,
                             fontWeight: FontWeight.w900,
                           ),
                         )),
@@ -167,7 +167,7 @@ class _DashboardViewState extends State<DashboardView> {
                 // ),
               ]),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 5),
               // Sound Buttons Section
 
               // Scoreboard and Timers Section
@@ -193,7 +193,7 @@ class _DashboardViewState extends State<DashboardView> {
 
                     // Center Timer Section
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         // Text(
                         //   'MATCH TIMER',
@@ -242,7 +242,7 @@ class _DashboardViewState extends State<DashboardView> {
                         // ),
 
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 35),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: iconButton(Icons.sync, () {
                             matchStore.swapSides();
                             // matchStore.startRaid(configStore.raidSeconds);
@@ -257,10 +257,10 @@ class _DashboardViewState extends State<DashboardView> {
                           style: TextStyle(
                               color: Color(0xFF00E5FF),
                               fontSize: screenWidth < 600
-                                  ? 110
+                                  ? 130
                                   : screenWidth < 900
-                                      ? 120
-                                      : 140,
+                                      ? 150
+                                      : 160,
                               fontWeight: FontWeight.w900),
                         ),
                         Row(
@@ -301,7 +301,7 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
               ),
               // const SizedBox(height: 24),
-              const SizedBox(height: 24),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -355,7 +355,7 @@ class _DashboardViewState extends State<DashboardView> {
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF2B2B33),
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
           side: const BorderSide(color: Color(0xFF4A4A5A), width: 1),
@@ -406,10 +406,8 @@ class _DashboardViewState extends State<DashboardView> {
       ),
       padding: const EdgeInsets.all(1.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 0,
-        mainAxisSize: MainAxisSize.min,
         children: [
           // Row(
           //   mainAxisAlignment: MainAxisAlignment.center,
