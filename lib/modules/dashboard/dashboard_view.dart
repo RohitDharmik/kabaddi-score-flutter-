@@ -257,10 +257,10 @@ class _DashboardViewState extends State<DashboardView> {
                           style: TextStyle(
                               color: Color(0xFF00E5FF),
                               fontSize: screenWidth < 600
-                                  ? 130
+                                  ? 150
                                   : screenWidth < 900
-                                      ? 150
-                                      : 160,
+                                      ? 170
+                                      : 190,
                               fontWeight: FontWeight.w900),
                         ),
                         Row(
