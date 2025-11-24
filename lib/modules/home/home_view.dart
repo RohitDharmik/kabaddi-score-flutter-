@@ -13,7 +13,7 @@ class HomeView extends StatelessWidget {
           children: [
             const Icon(Icons.emoji_events, color: Colors.cyan, size: 80),
             const SizedBox(height: 20),
-            const Text("BARIHA DIGITAL",
+            const Text("THAKUR DIGITAL SCOREBOARD KOMAKHAN",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
             const SizedBox(height: 40),
             Wrap(

@@ -9,7 +9,7 @@ class KabaddiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BARIHA DIGITAL',
+      title: 'THAKUR DIGITAL SCOREBOARD KOMAKHAN',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       initialRoute: '/',

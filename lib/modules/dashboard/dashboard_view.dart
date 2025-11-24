@@ -6,9 +6,6 @@ import 'package:provider/provider.dart';
 import '../../store/config_store.dart';
 import '../../store/match_store.dart';
 
-// Create a global AudioPlayer instance for sound buttons
-// final _audioPlayer = AudioPlayer();
-
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
 
@@ -19,6 +16,9 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   int round = 1;
   final FocusNode _focusNode = FocusNode();
+  List<bool> _homePlayerStatus = List.generate(7, (index) => true);
+  List<bool> _awayPlayerStatus = List.generate(7, (index) => true);
+
   String formatDuration(Duration d) {
     final minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
     final seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
@@ -42,7 +42,6 @@ class _DashboardViewState extends State<DashboardView> {
     super.dispose();
   }
 
-  // Dedicated function for the 'Buzzer' sound with SnackBar feedback
   void _playBuzzerSound(BuildContext context) {
     final player = AudioPlayer();
     player.play(AssetSource('sounds/buzzer.mp3'));
@@ -57,11 +56,8 @@ class _DashboardViewState extends State<DashboardView> {
     final player = AudioPlayer();
     player.play(AssetSource('sounds/halftime.mp3'));
     setState(() {
-      // Call setState to update the UI
       round = 2;
     });
-    // You must place your sound files in assets/sounds/shortbeep.mp3
-    // and declare the assets folder in pubspec.yaml
   }
 
   @override
@@ -69,15 +65,8 @@ class _DashboardViewState extends State<DashboardView> {
     final matchStore = context.watch<MatchStore>();
     final configStore = context.watch<ConfigStore>();
 
-    // onStartMatch() {
-    //   matchStore.startMatch(configStore.matchMinutes);
-    // }
-
-    // onStartRaid() {
-    //   matchStore.startRaid(configStore.raidSeconds);
-    // }
-
     final screenWidth = MediaQuery.of(context).size.width;
+
     return RawKeyboardListener(
       focusNode: _focusNode,
       onKey: (RawKeyEvent event) {
@@ -91,38 +80,36 @@ class _DashboardViewState extends State<DashboardView> {
       },
       child: Scaffold(
         backgroundColor: const Color(0xFF0F1115),
-        // appBar: AppBar(
-        //   title: const Text('Dashboard'),
-        //   backgroundColor: Colors.black,
-        // ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                ElevatedButton.icon(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 15,
-                  ),
-                  onPressed: () => matchStore.back(context),
-                  style: ElevatedButton.styleFrom(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 15,
+                    ),
+                    onPressed: () => matchStore.back(context),
+                    style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4CAF50),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 16),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15))),
-                  label: Text("Back",
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
+                    label: const Text(
+                      "Back",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w800)),
-                ),
-
-                // const Spacer(),
-
-                Expanded(
-                  child: Center(
-                    child: Container(
+                          color: Colors.white, fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFF1E1E28),
                           borderRadius: BorderRadius.circular(8),
@@ -139,36 +126,19 @@ class _DashboardViewState extends State<DashboardView> {
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
                           round.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xFF4CAF50),
                             fontSize: 40,
                             fontWeight: FontWeight.w900,
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(width: 110),
-                // ElevatedButton.icon(
-                //   icon: const Icon(
-                //     Icons.refresh,
-                //     color: Colors.white,
-                //     size: 24,
-                //   ),
-                //   onPressed: matchStore.resetAll,
-                //   style: ElevatedButton.styleFrom(
-                //       backgroundColor: const Color(0xFFFF4D4D),
-                //       padding: const EdgeInsets.symmetric(
-                //           horizontal: 48, vertical: 16),
-                //       shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(8))),
-                //   label: const Text('RESET ALL DATA',
-                //       style: TextStyle(
-                //           color: Colors.white, fontWeight: FontWeight.bold)),
-                // ),
-              ]),
-
+                  const SizedBox(width: 110),
+                ],
+              ),
               const SizedBox(height: 5),
-              // Sound Buttons Section
 
               // Scoreboard and Timers Section
               Expanded(
@@ -184,9 +154,13 @@ class _DashboardViewState extends State<DashboardView> {
                         configStore.teamA,
                         matchStore.teamAScore,
                         matchStore.teamAFouls,
+                        _homePlayerStatus,
                         () => matchStore.incrementScoreA(),
                         () => matchStore.decrementScoreA(),
                         () => matchStore.recordFoulA(),
+                        (index) => setState(() {
+                          _homePlayerStatus[index] = !_homePlayerStatus[index];
+                        }),
                       ),
                     ),
                     const SizedBox(width: 24),
@@ -195,90 +169,73 @@ class _DashboardViewState extends State<DashboardView> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // Text(
-                        //   'MATCH TIMER',
-                        //   style: TextStyle(
-                        //       color: Colors.white70,
-                        //       fontSize: 35,
-                        //       fontWeight: FontWeight.bold),
-                        // ),
                         Text(
-                          textHeightBehavior: TextHeightBehavior(
+                          formatDuration(matchStore.matchRemaining),
+                          textHeightBehavior: const TextHeightBehavior(
                             applyHeightToLastDescent: false,
                             applyHeightToFirstAscent: false,
                           ),
-                          formatDuration(matchStore.matchRemaining),
                           style: TextStyle(
-                              color: Color(0xFF00FFAA),
-                              fontSize: screenWidth < 600
-                                  ? 80
-                                  : screenWidth < 900
-                                      ? 90
-                                      : 120,
-                              fontWeight: FontWeight.w900),
+                            color: const Color(0xFF00FFAA),
+                            fontSize: screenWidth < 600
+                                ? 80
+                                : screenWidth < 900
+                                    ? 90
+                                    : 120,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                         Row(
-                          textBaseline: TextBaseline.ideographic,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _timerButton(
-                                icon: matchStore.isMatchRunning
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                onPressed: matchStore.pauseAndPlay),
+                              icon: matchStore.isMatchRunning
+                                  ? Icons.pause
+                                  : Icons.play_arrow,
+                              onPressed: matchStore.pauseAndPlay,
+                            ),
                             const SizedBox(width: 8),
                             _timerButton(
-                                icon: Icons.refresh,
-                                onPressed: matchStore.resetMatch),
+                              icon: Icons.refresh,
+                              onPressed: matchStore.resetMatch,
+                            ),
                           ],
                         ),
-                        // const SizedBox(height: 32),
-                        // const Text(
-                        //   'RAID TIMER',
-                        //   style: TextStyle(
-                        //       color: Colors.white70,
-                        //       fontSize: 50,
-                        //       fontWeight: FontWeight.bold),
-                        // ),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: iconButton(Icons.sync, () {
                             matchStore.swapSides();
-                            // matchStore.startRaid(configStore.raidSeconds);
                           }),
                         ),
                         Text(
-                          textHeightBehavior: TextHeightBehavior(
+                          formatDurationRaid(matchStore.raidRemaining),
+                          textHeightBehavior: const TextHeightBehavior(
                             applyHeightToLastDescent: false,
                             applyHeightToFirstAscent: false,
                           ),
-                          formatDurationRaid(matchStore.raidRemaining),
                           style: TextStyle(
-                              color: Color(0xFF00E5FF),
-                              fontSize: screenWidth < 600
-                                  ? 150
-                                  : screenWidth < 900
-                                      ? 170
-                                      : 190,
-                              fontWeight: FontWeight.w900),
+                            color: const Color(0xFF00E5FF),
+                            fontSize: screenWidth < 600
+                                ? 150
+                                : screenWidth < 900
+                                    ? 170
+                                    : 190,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                         Row(
                           children: [
                             _timerButton(
-                                icon: matchStore.isRaidRunning
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                onPressed: matchStore.pauseAndPlayRaid
-                                // matchStore.isRaidRunning
-                                //     ? matchStore.stopRaid
-                                //     : onStartRaid
-
-                                ),
+                              icon: matchStore.isRaidRunning
+                                  ? Icons.pause
+                                  : Icons.play_arrow,
+                              onPressed: matchStore.pauseAndPlayRaid,
+                            ),
                             const SizedBox(width: 4),
                             _timerButton(
-                                icon: Icons.refresh,
-                                onPressed: matchStore.resetRaid),
+                              icon: Icons.refresh,
+                              onPressed: matchStore.resetRaid,
+                            ),
                           ],
                         ),
                       ],
@@ -292,15 +249,18 @@ class _DashboardViewState extends State<DashboardView> {
                         configStore.teamB,
                         matchStore.teamBScore,
                         matchStore.teamBFouls,
+                        _awayPlayerStatus,
                         () => matchStore.incrementScoreB(),
                         () => matchStore.decrementScoreB(),
                         () => matchStore.recordFoulB(),
+                        (index) => setState(() {
+                          _awayPlayerStatus[index] = !_awayPlayerStatus[index];
+                        }),
                       ),
                     ),
                   ],
                 ),
               ),
-              // const SizedBox(height: 24),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -324,7 +284,6 @@ class _DashboardViewState extends State<DashboardView> {
                   ),
                 ],
               ),
-              // const SizedBox(height: 24),
             ],
           ),
         ),
@@ -346,10 +305,11 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
-  Widget _soundButton(
-      {required IconData icon,
-      required String label,
-      required VoidCallback onPressed}) {
+  Widget _soundButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
     return ElevatedButton.icon(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -366,8 +326,10 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
-  Widget _timerButton(
-      {required IconData icon, required VoidCallback onPressed}) {
+  Widget _timerButton({
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF2B2B33),
@@ -385,9 +347,11 @@ class _DashboardViewState extends State<DashboardView> {
     String teamName,
     int score,
     int fouls,
+    List<bool> playerStatuses,
     VoidCallback onInc,
     VoidCallback onDec,
     VoidCallback onFoul,
+    Function(int) onPlayerTap,
   ) {
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -409,14 +373,11 @@ class _DashboardViewState extends State<DashboardView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
           Padding(
             padding: const EdgeInsets.all(0.0),
             child: Text(
               teamName.toUpperCase(),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 80,
                 fontWeight: FontWeight.w500,
@@ -424,35 +385,32 @@ class _DashboardViewState extends State<DashboardView> {
               textAlign: TextAlign.center,
             ),
           ),
-          // const SizedBox(width: 8),
-          // const Icon(Icons.edit, color: Colors.white54, size: 24),
-          //   ],
-          // ),
-          // const SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.all(0.0),
             child: Text(
-                textHeightBehavior: TextHeightBehavior(
-                  applyHeightToLastDescent: false,
-                  applyHeightToFirstAscent: false,
-                ),
-                score.toString().padLeft(2, '0'),
-                style: TextStyle(
-                  color: Color(0xFF00FFAA),
-                  fontSize: screenWidth < 600
-                      ? 100
-                      : screenWidth < 900
-                          ? 125
-                          : screenWidth < 1200
-                              ? 250
-                              : 275,
-                  fontWeight: FontWeight.w900,
-                ),
-                maxLines: 1,
-                textAlign: TextAlign.center),
+              score.toString().padLeft(2, '0'),
+              textHeightBehavior: const TextHeightBehavior(
+                applyHeightToLastDescent: false,
+                applyHeightToFirstAscent: false,
+              ),
+              style: TextStyle(
+                color: const Color(0xFF00FFAA),
+                fontSize: screenWidth < 600
+                    ? 100
+                    : screenWidth < 900
+                        ? 125
+                        : screenWidth < 1200
+                            ? 250
+                            : 275,
+                fontWeight: FontWeight.w900,
+              ),
+              maxLines: 1,
+              textAlign: TextAlign.center,
+            ),
           ),
-
-          // const SizedBox(height: 10),
+          const SizedBox(height: 10),
+          _playerStatusRow(playerStatuses, onPlayerTap),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -478,6 +436,28 @@ class _DashboardViewState extends State<DashboardView> {
         icon: Icon(icon, color: Colors.white, size: 28),
         onPressed: onPressed,
       ),
+    );
+  }
+
+  Widget _playerStatusRow(
+      List<bool> playerStatuses, Function(int) onPlayerTap) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(7, (index) {
+        return GestureDetector(
+          onTap: () => onPlayerTap(index),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            child: Icon(
+              Icons.account_circle_outlined,
+              color: playerStatuses[index]
+                  ? const Color(0xFF00FF00)
+                  : const Color(0xFFFF0000),
+              size: 28,
+            ),
+          ),
+        );
+      }),
     );
   }
 }
