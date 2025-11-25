@@ -242,7 +242,7 @@ class _DashboardViewState extends State<DashboardView> {
                         // ),
 
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 5),
                           child: iconButton(Icons.sync, () {
                             matchStore.swapSides();
                             // matchStore.startRaid(configStore.raidSeconds);
@@ -257,11 +257,12 @@ class _DashboardViewState extends State<DashboardView> {
                           style: TextStyle(
                               color: Color(0xFF00E5FF),
                               fontSize: screenWidth < 600
-                                  ? 150
+                                  ? 170
                                   : screenWidth < 900
-                                      ? 170
-                                      : 190,
-                              fontWeight: FontWeight.w900),
+                                      ? 180
+                                      : 220,
+                              fontWeight: FontWeight.w900,
+                              height: 1.0),
                         ),
                         Row(
                           children: [
