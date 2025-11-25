@@ -128,7 +128,7 @@ class _DashboardViewState extends State<DashboardView> {
                           round.toString(),
                           style: const TextStyle(
                             color: Color(0xFF4CAF50),
-                            fontSize: 40,
+                            fontSize: 35,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -138,7 +138,7 @@ class _DashboardViewState extends State<DashboardView> {
                   const SizedBox(width: 110),
                 ],
               ),
-              const SizedBox(height: 5),
+              // const SizedBox(height: 5),
 
               // Scoreboard and Timers Section
               Expanded(
@@ -219,7 +219,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 ? 150
                                 : screenWidth < 900
                                     ? 170
-                                    : 190,
+                                    : 185,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -263,20 +263,20 @@ class _DashboardViewState extends State<DashboardView> {
               ),
               const SizedBox(height: 10),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _soundButton(
-                    icon: Icons.volume_up,
-                    label: 'Half Time',
-                    onPressed: () => _playHalfTimerSound(context),
-                  ),
-                  const SizedBox(width: 16),
+                  // _soundButton(
+                  //   icon: Icons.volume_up,
+                  //   label: 'Half Time',
+                  //   onPressed: () => _playHalfTimerSound(context),
+                  // ),
+                  // const SizedBox(width: 16),
                   _soundButton(
                     icon: Icons.volume_up,
                     label: 'Do or Die',
                     onPressed: () => _playDoOrDieSound(context),
                   ),
-                  const SizedBox(width: 16),
+                  // const SizedBox(width: 16),
                   _soundButton(
                     icon: Icons.notifications_active,
                     label: 'Buzzer',
@@ -368,14 +368,18 @@ class _DashboardViewState extends State<DashboardView> {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(1.0),
+      padding: const EdgeInsets.all(0.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(0.0),
             child: Text(
+              textHeightBehavior: const TextHeightBehavior(
+                  applyHeightToLastDescent: false,
+                  applyHeightToFirstAscent: false,
+                  leadingDistribution: TextLeadingDistribution.even),
               teamName.toUpperCase(),
               style: const TextStyle(
                 color: Colors.white,
@@ -400,17 +404,17 @@ class _DashboardViewState extends State<DashboardView> {
                     : screenWidth < 900
                         ? 125
                         : screenWidth < 1200
-                            ? 250
-                            : 275,
+                            ? 200
+                            : 235,
                 fontWeight: FontWeight.w900,
               ),
               maxLines: 1,
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 10),
+          // const SizedBox(height: 10),
           _playerStatusRow(playerStatuses, onPlayerTap),
-          const SizedBox(height: 10),
+          // const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -419,7 +423,7 @@ class _DashboardViewState extends State<DashboardView> {
               _scoreButton(Icons.add, onInc),
             ],
           ),
-          const SizedBox(height: 10),
+          // const SizedBox(height: 10),
         ],
       ),
     );
@@ -443,6 +447,7 @@ class _DashboardViewState extends State<DashboardView> {
       List<bool> playerStatuses, Function(int) onPlayerTap) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(7, (index) {
         return GestureDetector(
           onTap: () => onPlayerTap(index),
@@ -453,7 +458,7 @@ class _DashboardViewState extends State<DashboardView> {
               color: playerStatuses[index]
                   ? const Color(0xFF00FF00)
                   : const Color(0xFFFF0000),
-              size: 28,
+              size: 40,
             ),
           ),
         );
