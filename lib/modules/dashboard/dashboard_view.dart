@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:zo_animated_border/zo_animated_border.dart';
 
 import '../../store/config_store.dart';
 import '../../store/match_store.dart';
@@ -121,7 +122,7 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ],
                         ),
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Text(
                           textHeightBehavior: const TextHeightBehavior(
                               applyHeightToLastDescent: false,
@@ -131,7 +132,7 @@ class _DashboardViewState extends State<DashboardView> {
                           configStore.feild,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 30,
+                            fontSize: 25,
                             fontWeight: FontWeight.w500,
                           ),
                           textAlign: TextAlign.center,
@@ -154,7 +155,7 @@ class _DashboardViewState extends State<DashboardView> {
                         ),
                       ],
                     ),
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Text(
                       textHeightBehavior: const TextHeightBehavior(
                           applyHeightToLastDescent: false,
@@ -163,7 +164,7 @@ class _DashboardViewState extends State<DashboardView> {
                       configStore.matchNo,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 30,
+                        fontSize: 25,
                         fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.center,
@@ -171,7 +172,7 @@ class _DashboardViewState extends State<DashboardView> {
                   ),
                 ],
               ),
-              // const SizedBox(height: 5),
+              const SizedBox(height: 5),
 
               // Scoreboard and Timers Section
               Expanded(
@@ -243,11 +244,24 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: iconButton(Icons.sync, () {
-                            matchStore.swapSides();
-                            _playHalf(context);
-                          }),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: ZoAnimatedGradientBorder(
+                            borderRadius: 16,
+                            // duration: const Duration(seconds: 30),
+                            gradientColor: [
+                              Colors.red,
+                              Colors.orange,
+                              Colors.yellow,
+                              Colors.green,
+                              Colors.blue,
+                              Colors.indigo,
+                              Colors.purple,
+                            ],
+                            child: iconButton(Icons.sync, () {
+                              matchStore.swapSides();
+                              _playHalf(context);
+                            }),
+                          ),
                         ),
                         Text(
                           formatDurationRaid(matchStore.raidRemaining),
