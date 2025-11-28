@@ -6,6 +6,7 @@ import 'package:zo_animated_border/zo_animated_border.dart';
 
 import '../../store/config_store.dart';
 import '../../store/match_store.dart';
+import '../widgets/utiles.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -184,7 +185,7 @@ class _DashboardViewState extends State<DashboardView> {
                   children: [
                     // Team A Panel
                     Expanded(
-                      child: _teamPanel(
+                      child: teamPanel(
                         context,
                         configStore.teamA,
                         matchStore.teamAScore,
@@ -224,21 +225,21 @@ class _DashboardViewState extends State<DashboardView> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _timerButton(
+                            timerButton(
                               icon: matchStore.isMatchRunning
                                   ? Icons.pause
                                   : Icons.play_arrow,
                               onPressed: matchStore.pauseAndPlay,
                             ),
                             const SizedBox(width: 8),
-                            _timerButton(
+                            timerButton(
                               icon: Icons.refresh,
                               onPressed: matchStore.resetMatch,
                             ),
                           ],
                         ),
                         Text(
-                          round.toString(),
+                          round.toString() + " half",
                           style: const TextStyle(
                             color: Color(0xFF4CAF50),
                             fontSize: 30,
@@ -284,14 +285,14 @@ class _DashboardViewState extends State<DashboardView> {
                         ),
                         Row(
                           children: [
-                            _timerButton(
+                            timerButton(
                               icon: matchStore.isRaidRunning
                                   ? Icons.pause
                                   : Icons.play_arrow,
                               onPressed: matchStore.pauseAndPlayRaid,
                             ),
                             const SizedBox(width: 4),
-                            _timerButton(
+                            timerButton(
                               icon: Icons.refresh,
                               onPressed: matchStore.resetRaid,
                             ),
@@ -303,7 +304,7 @@ class _DashboardViewState extends State<DashboardView> {
 
                     // Team B Panel
                     Expanded(
-                      child: _teamPanel(
+                      child: teamPanel(
                         context,
                         configStore.teamB,
                         matchStore.teamBScore,
@@ -324,19 +325,13 @@ class _DashboardViewState extends State<DashboardView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // _soundButton(
-                  //   icon: Icons.volume_up,
-                  //   label: 'Half Time',
-                  //   onPressed: () => _playHalf(context),
-                  // ),
-                  // const SizedBox(width: 16),
-                  _soundButton(
+                  soundButton(
                     icon: Icons.volume_up,
                     label: 'Do or Die',
                     onPressed: () => _playDoOrDieSound(context),
                   ),
                   // const SizedBox(width: 16),
-                  _soundButton(
+                  soundButton(
                     icon: Icons.notifications_active,
                     label: 'Buzzer',
                     onPressed: () => _playBuzzerSound(context),
@@ -347,182 +342,6 @@ class _DashboardViewState extends State<DashboardView> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget iconButton(IconData icon, VoidCallback onPressed) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF2B2B33),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFF4A4A5A), width: 1),
-      ),
-      child: IconButton(
-        icon: Icon(icon, color: Colors.white),
-        onPressed: onPressed,
-      ),
-    );
-  }
-
-  Widget _soundButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onPressed,
-  }) {
-    return ElevatedButton.icon(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF2B2B33),
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: const BorderSide(color: Color(0xFF4A4A5A), width: 1),
-        ),
-      ),
-      icon: Icon(icon, size: 20),
-      label: Text(label),
-    );
-  }
-
-  Widget _timerButton({
-    required IconData icon,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF2B2B33),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: IconButton(
-        icon: Icon(icon, color: Colors.white),
-        onPressed: onPressed,
-      ),
-    );
-  }
-
-  Widget _teamPanel(
-    BuildContext context,
-    String teamName,
-    int score,
-    int fouls,
-    List<bool> playerStatuses,
-    VoidCallback onInc,
-    VoidCallback onDec,
-    VoidCallback onFoul,
-    Function(int) onPlayerTap,
-  ) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E1E28),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF3A3A4A), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(0.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: Text(
-              textHeightBehavior: const TextHeightBehavior(
-                  applyHeightToLastDescent: false,
-                  applyHeightToFirstAscent: false,
-                  leadingDistribution: TextLeadingDistribution.even),
-              teamName.toUpperCase(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 80,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: Text(
-              score.toString().padLeft(2, '0'),
-              textHeightBehavior: const TextHeightBehavior(
-                applyHeightToLastDescent: false,
-                applyHeightToFirstAscent: false,
-              ),
-              style: TextStyle(
-                color: const Color(0xFF00FFAA),
-                fontSize: screenWidth < 600
-                    ? 100
-                    : screenWidth < 900
-                        ? 125
-                        : screenWidth < 1200
-                            ? 200
-                            : 235,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'digital7',
-              ),
-              maxLines: 1,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          // const SizedBox(height: 10),
-          _playerStatusRow(playerStatuses, onPlayerTap),
-          // const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _scoreButton(Icons.remove, onDec),
-              const SizedBox(width: 16),
-              _scoreButton(Icons.add, onInc),
-            ],
-          ),
-          // const SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
-
-  Widget _scoreButton(IconData icon, VoidCallback onPressed) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF2B2B33),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFF4A4A5A), width: 1),
-      ),
-      child: IconButton(
-        icon: Icon(icon, color: Colors.white, size: 28),
-        onPressed: onPressed,
-      ),
-    );
-  }
-
-  Widget _playerStatusRow(
-      List<bool> playerStatuses, Function(int) onPlayerTap) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: List.generate(7, (index) {
-        return GestureDetector(
-          onTap: () => onPlayerTap(index),
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            child: Icon(
-              Icons.account_circle_outlined,
-              color: playerStatuses[index]
-                  ? const Color(0xFF00FF00)
-                  : const Color(0xFFFF0000),
-              size: 40,
-            ),
-          ),
-        );
-      }),
     );
   }
 }
