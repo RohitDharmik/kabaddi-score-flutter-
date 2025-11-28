@@ -166,6 +166,7 @@ class _DashboardViewState extends State<DashboardView> {
                         color: Colors.white,
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
+                        fontFamily: 'digital7',
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -217,6 +218,7 @@ class _DashboardViewState extends State<DashboardView> {
                                     ? 90
                                     : 120,
                             fontWeight: FontWeight.w900,
+                            fontFamily: 'digital7',
                           ),
                         ),
                         Row(
@@ -464,6 +466,7 @@ class _DashboardViewState extends State<DashboardView> {
                             ? 200
                             : 235,
                 fontWeight: FontWeight.w900,
+                fontFamily: 'digital7',
               ),
               maxLines: 1,
               textAlign: TextAlign.center,
