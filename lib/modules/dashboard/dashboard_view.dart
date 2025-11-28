@@ -41,6 +41,10 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   void dispose() {
     _focusNode.dispose();
+    _homePlayerStatus.clear();
+    _awayPlayerStatus.clear();
+    round = 1;
+
     super.dispose();
   }
 
