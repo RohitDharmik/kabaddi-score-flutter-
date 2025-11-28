@@ -16,7 +16,8 @@ class _ConfigViewState extends State<ConfigView> {
   late TextEditingController _raidDurController;
   late TextEditingController _teamAController;
   late TextEditingController _teamBController;
-
+  late TextEditingController _feildnameController;
+  late TextEditingController _matchNoController;
   @override
   void initState() {
     super.initState();
@@ -27,6 +28,8 @@ class _ConfigViewState extends State<ConfigView> {
         TextEditingController(text: config.raidSeconds.toString());
     _teamAController = TextEditingController(text: config.teamA);
     _teamBController = TextEditingController(text: config.teamB);
+    _feildnameController = TextEditingController(text: config.feild);
+    _matchNoController = TextEditingController(text: config.matchNo);
   }
 
   @override
@@ -35,6 +38,8 @@ class _ConfigViewState extends State<ConfigView> {
     _raidDurController.dispose();
     _teamAController.dispose();
     _teamBController.dispose();
+    _feildnameController.dispose();
+    _matchNoController.dispose();
     super.dispose();
   }
 
@@ -45,6 +50,8 @@ class _ConfigViewState extends State<ConfigView> {
       config.updateRaid(int.parse(_raidDurController.text));
       config.updateTeamA(_teamAController.text.trim());
       config.updateTeamB(_teamBController.text.trim());
+      config.updateFeild(_feildnameController.text.trim());
+      config.updateMatchNo(_matchNoController.text);
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Settings saved')));
       Navigator.pop(context); // or stay, depending on your flow
@@ -58,12 +65,16 @@ class _ConfigViewState extends State<ConfigView> {
       _raidDurController.text = '30';
       _teamAController.text = 'Team A';
       _teamBController.text = 'Team B';
+      _feildnameController.text = 'Feild 1';
+      _matchNoController.text = '00';
     });
     // Optionally update store too
     config.updateMatchTime(20);
     config.updateRaid(30);
     config.updateTeamA('Team A');
     config.updateTeamB('Team B');
+    config.updateFeild('Feild 1');
+    config.updateMatchNo('00');
   }
 
   @override
@@ -158,6 +169,46 @@ class _ConfigViewState extends State<ConfigView> {
                 validator: (value) {
                   if (value == null || value.trim().length < 2) {
                     return 'Team name too short';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 12),
+              // Feild Name
+              TextFormField(
+                controller: _feildnameController,
+                decoration: const InputDecoration(
+                  labelText: 'Feild Name',
+                  labelStyle: TextStyle(color: Colors.white70),
+                  filled: true,
+                  fillColor: Color(0xFF1E1E28),
+                ),
+                style: const TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value == null || value.trim().length < 2) {
+                    return 'Feild Name too short';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 12),
+              // match DD DNumber
+              TextFormField(
+                controller: _matchNoController,
+                decoration: const InputDecoration(
+                  labelText: 'Match Number',
+                  labelStyle: TextStyle(color: Colors.white70),
+                  filled: true,
+                  fillColor: Color(0xFF1E1E28),
+                ),
+                style: const TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter Match Number';
+                  }
+                  final v = int.tryParse(value);
+                  if (v == null) {
+                    return 'Only numbers allowed';
                   }
                   return null;
                 },

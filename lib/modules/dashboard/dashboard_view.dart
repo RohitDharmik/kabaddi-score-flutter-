@@ -52,9 +52,7 @@ class _DashboardViewState extends State<DashboardView> {
     player.play(AssetSource('sounds/doordie2.mp3'));
   }
 
-  void _playHalfTimerSound(BuildContext context) async {
-    final player = AudioPlayer();
-    player.play(AssetSource('sounds/halftime.mp3'));
+  void _playHalf(BuildContext context) async {
     setState(() {
       round = 2;
     });
@@ -125,17 +123,52 @@ class _DashboardViewState extends State<DashboardView> {
                         ),
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
-                          round.toString(),
+                          textHeightBehavior: const TextHeightBehavior(
+                              applyHeightToLastDescent: false,
+                              applyHeightToFirstAscent: false,
+                              leadingDistribution:
+                                  TextLeadingDistribution.even),
+                          configStore.feild,
                           style: const TextStyle(
-                            color: Color(0xFF4CAF50),
-                            fontSize: 35,
-                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 110),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1E1E28),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                          color: const Color(0xFF3A3A4A), width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      textHeightBehavior: const TextHeightBehavior(
+                          applyHeightToLastDescent: false,
+                          applyHeightToFirstAscent: false,
+                          leadingDistribution: TextLeadingDistribution.even),
+                      configStore.matchNo,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ],
               ),
               // const SizedBox(height: 5),
@@ -201,10 +234,19 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ],
                         ),
+                        Text(
+                          round.toString(),
+                          style: const TextStyle(
+                            color: Color(0xFF4CAF50),
+                            fontSize: 30,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: iconButton(Icons.sync, () {
                             matchStore.swapSides();
+                            _playHalf(context);
                           }),
                         ),
                         Text(
@@ -214,13 +256,14 @@ class _DashboardViewState extends State<DashboardView> {
                             applyHeightToFirstAscent: false,
                           ),
                           style: TextStyle(
-                            color: const Color(0xFF00E5FF),
+                            color: const Color.fromARGB(255, 255, 0, 0),
                             fontSize: screenWidth < 600
                                 ? 150
                                 : screenWidth < 900
                                     ? 170
                                     : 185,
                             fontWeight: FontWeight.w900,
+                            fontFamily: 'digital7',
                           ),
                         ),
                         Row(
@@ -268,7 +311,7 @@ class _DashboardViewState extends State<DashboardView> {
                   // _soundButton(
                   //   icon: Icons.volume_up,
                   //   label: 'Half Time',
-                  //   onPressed: () => _playHalfTimerSound(context),
+                  //   onPressed: () => _playHalf(context),
                   // ),
                   // const SizedBox(width: 16),
                   _soundButton(

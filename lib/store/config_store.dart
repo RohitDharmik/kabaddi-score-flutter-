@@ -6,6 +6,8 @@ class ConfigStore extends ChangeNotifier {
   int raidSeconds = 30;
   String teamA = "Team A";
   String teamB = "Team B";
+  String feild = "Feild 1";
+  String matchNo = "00";
 
   void updateMatchTime(int minutes) {
     print(minutes.toString() + " minutes set in config store");
@@ -31,6 +33,16 @@ class ConfigStore extends ChangeNotifier {
 
   void updateTeamB(String name) {
     teamB = name;
+    notifyListeners();
+  }
+
+  void updateFeild(String feildname) {
+    feild = feildname;
+    notifyListeners();
+  }
+
+  void updateMatchNo(String number) {
+    matchNo = number;
     notifyListeners();
   }
 }

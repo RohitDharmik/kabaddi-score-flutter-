@@ -101,7 +101,7 @@ class MatchStore with ChangeNotifier {
     // new match: reset flags and play start sound
     _halfTimePlayed = false;
     _startSoundPlayed = true;
-    _playStartTimerSound();
+    // _playStartTimerSound();
 
     _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (matchRemaining.inSeconds <= 0) {
@@ -125,18 +125,18 @@ class MatchStore with ChangeNotifier {
         // }
 
         // Sound logic for Match Timer (beeps)
-        if (matchRemaining.inMinutes == 5 &&
-            matchRemaining.inSeconds % 60 == 0) {
-          _playTimerBeep(); // Last 5 minutes, 1 beep every minute
-        }
-        if (matchRemaining.inMinutes == 2 &&
-            matchRemaining.inSeconds % 30 == 0) {
-          _playTimerBeep(); // Last 2 minutes, 1 beep every 30 seconds
-        }
-        if (matchRemaining.inMinutes == 0 &&
-            matchRemaining.inSeconds % 10 == 0) {
-          _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
-        }
+        // if (matchRemaining.inMinutes == 5 &&
+        //     matchRemaining.inSeconds % 60 == 0) {
+        //   _playTimerBeep(); // Last 5 minutes, 1 beep every minute
+        // }
+        // if (matchRemaining.inMinutes == 2 &&
+        //     matchRemaining.inSeconds % 30 == 0) {
+        //   _playTimerBeep(); // Last 2 minutes, 1 beep every 30 seconds
+        // }
+        // if (matchRemaining.inMinutes == 0 &&
+        //     matchRemaining.inSeconds % 10 == 0) {
+        //   _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
+        // }
 
         // if time reaches 00:00 after decrement, play time-over and stop
         if (matchRemaining.inMinutes == 0 && matchRemaining.inSeconds == 0) {
@@ -161,7 +161,7 @@ class MatchStore with ChangeNotifier {
       if (!_startSoundPlayed && matchRemaining == matchDuration) {
         _startSoundPlayed = true;
         _halfTimePlayed = false;
-        _playStartTimerSound();
+        // _playStartTimerSound();
       }
 
       _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -185,14 +185,14 @@ class MatchStore with ChangeNotifier {
           // }
 
           // Sound logic for Match Timer (beeps)
-          if (matchRemaining.inMinutes == 5 &&
-              matchRemaining.inSeconds % 60 == 0) {
-            _playTimerBeep(); // Last 5 minutes, 1 beep every minute
-          }
-          if (matchRemaining.inMinutes == 2 &&
-              matchRemaining.inSeconds % 30 == 0) {
-            _playTimerBeep(); // Last 2 minutes, 1 beep every 30 seconds
-          }
+          // if (matchRemaining.inMinutes == 5 &&
+          //     matchRemaining.inSeconds % 60 == 0) {
+          //   _playTimerBeep(); // Last 5 minutes, 1 beep every minute
+          // }
+          // if (matchRemaining.inMinutes == 2 &&
+          //     matchRemaining.inSeconds % 30 == 0) {
+          //   _playTimerBeep(); // Last 2 minutes, 1 beep every 30 seconds
+          // }
           if (matchRemaining.inMinutes == 0 &&
               matchRemaining.inSeconds % 10 == 0) {
             _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
@@ -250,9 +250,9 @@ class MatchStore with ChangeNotifier {
         if (raidRemaining.inSeconds <= 10 && raidRemaining.inSeconds > 0) {
           _playTimerBeep(); // Last 10 seconds, 1 beep every second
         }
-        if (raidRemaining.inSeconds == 0) {
-          _playTimerBuzzer(); // Raid over beep
-        }
+        // if (raidRemaining.inSeconds == 0) {
+        //   _playTimerBuzzer(); // Raid over beep
+        // }
 
         notifyListeners();
       }
@@ -275,9 +275,9 @@ class MatchStore with ChangeNotifier {
           if (raidRemaining.inSeconds <= 10 && raidRemaining.inSeconds > 0) {
             _playTimerBeep(); // Last 10 seconds, 1 beep every second
           }
-          if (raidRemaining.inSeconds == 0) {
-            _playTimerBuzzer(); // Raid over beep
-          }
+          // if (raidRemaining.inSeconds == 0) {
+          //   _playTimerBuzzer(); // Raid over beep
+          // }
 
           notifyListeners();
         }
