@@ -41,7 +41,7 @@ class MatchStore with ChangeNotifier {
   bool isRaidRunning = false;
 
   // flags to ensure sounds play only once per match lifecycle
-  bool _halfTimePlayed = false;
+  // bool _halfTimePlayed = false;
   bool _startSoundPlayed = false;
 
   // Duration matchRemaining = const Duration(minutes: configStore.matchMinutes);
@@ -58,11 +58,11 @@ class MatchStore with ChangeNotifier {
   //   await _timerBeepPlayer.play(AssetSource('sounds/timeover.mp3'));
   // }
 
-  void _playTimerBuzzer() async {
-    // You must place your sound files in assets/sounds/shortbeep.mp3
-    // and declare the assets folder in pubspec.yaml
-    await _timerBeepPlayer.play(AssetSource('sounds/buzzer.mp3'));
-  }
+  // void _playTimerBuzzer() async {
+  //   // You must place your sound files in assets/sounds/shortbeep.mp3
+  //   // and declare the assets folder in pubspec.yaml
+  //   await _timerBeepPlayer.play(AssetSource('sounds/buzzer.mp3'));
+  // }
 
   // void _playHalfTimerSound() async {
   //   // You must place your sound files in assets/sounds/shortbeep.mp3
@@ -70,11 +70,11 @@ class MatchStore with ChangeNotifier {
   //   await _timerBeepPlayer.play(AssetSource('sounds/halftime.mp3'));
   // }
 
-  void _playStartTimerSound() async {
-    // You must place your sound files in assets/sounds/shortbeep.mp3
-    // and declare the assets folder in pubspec.yaml
-    await _timerBeepPlayer.play(AssetSource('sounds/matchstart.mp3'));
-  }
+  // void _playStartTimerSound() async {
+  //   // You must place your sound files in assets/sounds/shortbeep.mp3
+  //   // and declare the assets folder in pubspec.yaml
+  //   await _timerBeepPlayer.play(AssetSource('sounds/matchstart.mp3'));
+  // }
 
   void swapSides() {
     final tempScore = teamAScore;
@@ -99,8 +99,8 @@ class MatchStore with ChangeNotifier {
     matchDuration = Duration(minutes: matchMinutes);
     matchRemaining = matchDuration;
     // new match: reset flags and play start sound
-    _halfTimePlayed = false;
-    _startSoundPlayed = true;
+    // _halfTimePlayed = false;
+    // _startSoundPlayed = true;
     // _playStartTimerSound();
 
     _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -159,8 +159,8 @@ class MatchStore with ChangeNotifier {
     } else {
       // If starting from full remaining time, treat as first start and play start sound
       if (!_startSoundPlayed && matchRemaining == matchDuration) {
-        _startSoundPlayed = true;
-        _halfTimePlayed = false;
+        // _startSoundPlayed = true;
+        // _halfTimePlayed = false;
         // _playStartTimerSound();
       }
 
@@ -228,8 +228,8 @@ class MatchStore with ChangeNotifier {
     stopMatch();
     // isMatchRunning = false;
     matchRemaining = matchDuration;
-    _halfTimePlayed = false;
-    _startSoundPlayed = false;
+    // _halfTimePlayed = false;
+    // _startSoundPlayed = false;
     notifyListeners();
   }
 
