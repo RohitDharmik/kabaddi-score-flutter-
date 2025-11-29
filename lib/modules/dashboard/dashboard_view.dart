@@ -88,98 +88,98 @@ class _DashboardViewState extends State<DashboardView> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 15,
-                    ),
-                    onPressed: () => matchStore.back(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 16),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                    ),
-                    label: const Text(
-                      "Back",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w800),
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF1E1E28),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                              color: const Color(0xFF3A3A4A), width: 1.5),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text(
-                          textHeightBehavior: const TextHeightBehavior(
-                              applyHeightToLastDescent: false,
-                              applyHeightToFirstAscent: false,
-                              leadingDistribution:
-                                  TextLeadingDistribution.even),
-                          configStore.feild,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 110),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1E1E28),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                          color: const Color(0xFF3A3A4A), width: 1.5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.only(
-                        bottom: 5.0, top: 2.0, left: 10, right: 10.0),
-                    child: Text(
-                      textHeightBehavior: const TextHeightBehavior(
-                          // applyHeightToLastDescent: false,
-                          // applyHeightToFirstAscent: false,
-                          leadingDistribution: TextLeadingDistribution.even),
-                      configStore.matchNo,
-                      style: const TextStyle(
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.arrow_back,
                         color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'digital7',
+                        size: 15,
                       ),
-                      textAlign: TextAlign.center,
+                      onPressed: () => matchStore.back(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 16),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                      ),
+                      label: const Text(
+                        "Back",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w800),
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1E28),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: const Color(0xFF3A3A4A), width: 1.5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        textHeightBehavior: const TextHeightBehavior(
+                            applyHeightToLastDescent: false,
+                            applyHeightToFirstAscent: false,
+                            leadingDistribution:
+                                TextLeadingDistribution.even),
+                        configStore.feild,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    // const SizedBox(width: 100),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1E28),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: const Color(0xFF3A3A4A), width: 1.5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.only(
+                          bottom: 2.0, top: 2.0, left: 5, right: 5.0),
+                      child: Text(
+                        textHeightBehavior: const TextHeightBehavior(
+                            applyHeightToLastDescent: false,
+                            applyHeightToFirstAscent: false,
+                            leadingDistribution: TextLeadingDistribution.even),
+                        configStore.matchNo,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 50,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'digital7',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 10),
+              // const SizedBox(height: 10),
 
               // Scoreboard and Timers Section
               Expanded(

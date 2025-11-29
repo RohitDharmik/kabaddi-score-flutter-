@@ -1,5 +1,4 @@
 import 'package:THAKUR_DIGITAL_SCOREBOARD/core/theme.dart';
-import 'package:THAKUR_DIGITAL_SCOREBOARD/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:zo_animated_border/zo_animated_border.dart';
 
