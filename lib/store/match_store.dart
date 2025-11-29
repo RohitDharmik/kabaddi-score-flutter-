@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:THAKUR_DIGITAL_SCOREBOARD/store/config_store.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:kabbadi_league/store/config_store.dart';
 
 class MatchStore with ChangeNotifier {
   int teamAScore = 0;
@@ -14,8 +14,9 @@ class MatchStore with ChangeNotifier {
 
   // ConfigStore configStore = ConfigStore();
   // NEW: Player status lists
-  List<bool> teamAPlayerStatuses = List.generate(7, (_) => false);
-  List<bool> teamBPlayerStatuses = List.generate(7, (_) => false);
+  // Default to `true` so player icons show green by default.
+  List<bool> teamAPlayerStatuses = List.generate(7, (_) => true);
+  List<bool> teamBPlayerStatuses = List.generate(7, (_) => true);
   void togglePlayer(bool isTeamA, int index) {
     if (isTeamA) {
       teamAPlayerStatuses[index] = !teamAPlayerStatuses[index];
@@ -110,6 +111,18 @@ class MatchStore with ChangeNotifier {
     final tmpList = teamAPlayerStatuses;
     teamAPlayerStatuses = teamBPlayerStatuses;
     teamBPlayerStatuses = tmpList;
+    // swap color change
+    // If any team has all players toggled off (red), turn them all on (green).
+    if (teamAPlayerStatuses.isNotEmpty &&
+        teamAPlayerStatuses.every((v) => v == false)) {
+      teamAPlayerStatuses =
+          List.generate(teamAPlayerStatuses.length, (_) => true);
+    }
+    if (teamBPlayerStatuses.isNotEmpty &&
+        teamBPlayerStatuses.every((v) => v == false)) {
+      teamBPlayerStatuses =
+          List.generate(teamBPlayerStatuses.length, (_) => true);
+    }
 
     notifyListeners();
   }

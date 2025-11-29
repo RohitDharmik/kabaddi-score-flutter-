@@ -1,4 +1,4 @@
-package com.example.kabbadi_league
+package com.example.THAKUR_DIGITAL_SCOREBOARD
 
 import io.flutter.embedding.android.FlutterActivity
 

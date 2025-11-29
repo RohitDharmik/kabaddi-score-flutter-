@@ -1,4 +1,4 @@
-# kabbadi_league
+# THAKUR_DIGITAL_SCOREBOARD
 
 A new Flutter project.
 3.8.0 (stable) (Wed May 14 09:07:14 2025 -0700) on "windows_x64"

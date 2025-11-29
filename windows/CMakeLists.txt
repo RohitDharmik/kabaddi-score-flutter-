@@ -1,10 +1,10 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
-project(kabbadi_league LANGUAGES CXX)
+project(THAKUR_DIGITAL_SCOREBOARD LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "kabbadi_league")
+set(BINARY_NAME "THAKUR_DIGITAL_SCOREBOARD")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
