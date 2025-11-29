@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kabbadi_league/core/theme.dart';
+import 'package:zo_animated_border/zo_animated_border.dart';
 
 Widget iconButton(IconData icon, VoidCallback onPressed) {
   return Container(
@@ -22,7 +24,7 @@ Widget soundButton({
   return ElevatedButton.icon(
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xFF2B2B33),
+      backgroundColor: AppTheme.darkTheme.primaryColor,
       foregroundColor: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
       shape: RoundedRectangleBorder(
@@ -41,7 +43,7 @@ Widget timerButton({
 }) {
   return Container(
     decoration: BoxDecoration(
-      color: const Color(0xFF2B2B33),
+      color: AppTheme.darkTheme.primaryColor,
       borderRadius: BorderRadius.circular(4),
     ),
     child: IconButton(
@@ -79,7 +81,7 @@ Widget teamPanel(
     ),
     padding: const EdgeInsets.all(0.0),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
@@ -90,14 +92,15 @@ Widget teamPanel(
                 applyHeightToFirstAscent: false,
                 leadingDistribution: TextLeadingDistribution.even),
             teamName.toUpperCase(),
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
               fontSize: 80,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w800,
             ),
             textAlign: TextAlign.center,
           ),
         ),
+        Spacer(),
         Padding(
           padding: const EdgeInsets.all(0.0),
           child: Text(
@@ -111,10 +114,10 @@ Widget teamPanel(
               fontSize: screenWidth < 600
                   ? 100
                   : screenWidth < 900
-                      ? 125
+                      ? 150
                       : screenWidth < 1200
-                          ? 200
-                          : 235,
+                          ? 220
+                          : 250,
               fontWeight: FontWeight.w900,
               fontFamily: 'digital7',
             ),
@@ -122,9 +125,9 @@ Widget teamPanel(
             textAlign: TextAlign.center,
           ),
         ),
+
         // const SizedBox(height: 10),
-        playerStatusRow(playerStatuses, onPlayerTap),
-        // const SizedBox(height: 10),
+        Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -133,6 +136,9 @@ Widget teamPanel(
             scoreButton(Icons.add, onInc),
           ],
         ),
+        Spacer(),
+        // const SizedBox(height: 10),
+        playerStatusRow(playerStatuses, onPlayerTap),
         // const SizedBox(height: 10),
       ],
     ),
@@ -142,7 +148,7 @@ Widget teamPanel(
 Widget scoreButton(IconData icon, VoidCallback onPressed) {
   return Container(
     decoration: BoxDecoration(
-      color: const Color(0xFF2B2B33),
+      color: AppTheme.darkTheme.primaryColor,
       borderRadius: BorderRadius.circular(8),
       border: Border.all(color: const Color(0xFF4A4A5A), width: 1),
     ),
@@ -156,18 +162,40 @@ Widget scoreButton(IconData icon, VoidCallback onPressed) {
 Widget playerStatusRow(List<bool> playerStatuses, Function(int) onPlayerTap) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: List.generate(7, (index) {
       return GestureDetector(
         onTap: () => onPlayerTap(index),
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          child: Icon(
-            Icons.account_circle_outlined,
-            color: playerStatuses[index]
-                ? const Color(0xFF00FF00)
-                : const Color(0xFFFF0000),
-            size: 40,
+          margin: const EdgeInsets.only(bottom: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: ZoAnimatedGradientBorder(
+            borderRadius: 40, borderThickness: 1,
+            animationDuration: const Duration(seconds: 3),
+            glowOpacity: 1.0,
+            animationCurve: Curves.easeInOut,
+            // duration: const Duration(seconds: 30),
+            gradientColor: playerStatuses[index]
+                ? [
+                    const Color(0xFF00FF00),
+                    const Color(0xFF05F005),
+                    const Color.fromARGB(224, 119, 240, 49),
+                    const Color(0xE21EF91E),
+                  ]
+                : [
+                    const Color(0xFFFF0000),
+                    const Color(0xFFFF0505),
+                    const Color(0xFFE13131),
+                    const Color(0xFFE21E1E),
+                  ],
+
+            child: Icon(
+              Icons.person_outline_sharp,
+              color: playerStatuses[index]
+                  ? const Color(0xFF00FF00)
+                  : const Color(0xFFFF0000),
+              size: 50,
+            ),
           ),
         ),
       );

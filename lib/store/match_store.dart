@@ -9,8 +9,21 @@ class MatchStore with ChangeNotifier {
   int teamBScore = 0;
   int teamAFouls = 0;
   int teamBFouls = 0;
+  int playerAId = 0;
+  int playerBId = 0;
 
   // ConfigStore configStore = ConfigStore();
+  // NEW: Player status lists
+  List<bool> teamAPlayerStatuses = List.generate(7, (_) => false);
+  List<bool> teamBPlayerStatuses = List.generate(7, (_) => false);
+  void togglePlayer(bool isTeamA, int index) {
+    if (isTeamA) {
+      teamAPlayerStatuses[index] = !teamAPlayerStatuses[index];
+    } else {
+      teamBPlayerStatuses[index] = !teamBPlayerStatuses[index];
+    }
+    notifyListeners();
+  }
 
   late Duration matchDuration = Duration(minutes: ConfigStore().matchMinutes);
   late Duration matchRemaining;
@@ -48,12 +61,16 @@ class MatchStore with ChangeNotifier {
   // Duration raidRemaining = const Duration(seconds: 30);
 
   // Play a unique beep sound for timers
-  void _playTimerBeep() async {
+  // void _playTimerBeep() async {
+  //   // You must place your sound files in assets/sounds/shortbeep.mp3
+  //   // and declare the assets folder in pubspec.yaml
+  //   await _timerBeepPlayer.play(AssetSource('sounds/tensec.mp3'));
+  // }
+  void _playTensecSound() async {
     // You must place your sound files in assets/sounds/shortbeep.mp3
     // and declare the assets folder in pubspec.yaml
-    await _timerBeepPlayer.play(AssetSource('sounds/shortbeep.mp3'));
+    await _timerBeepPlayer.play(AssetSource('sounds/tensec.mp3'));
   }
-
   // void _timeOverSound() async {
   //   await _timerBeepPlayer.play(AssetSource('sounds/timeover.mp3'));
   // }
@@ -88,6 +105,11 @@ class MatchStore with ChangeNotifier {
     final tempName = configStore.teamA;
     configStore.teamA = configStore.teamB;
     configStore.teamB = tempName;
+
+    // Lists
+    final tmpList = teamAPlayerStatuses;
+    teamAPlayerStatuses = teamBPlayerStatuses;
+    teamBPlayerStatuses = tmpList;
 
     notifyListeners();
   }
@@ -193,10 +215,10 @@ class MatchStore with ChangeNotifier {
           //     matchRemaining.inSeconds % 30 == 0) {
           //   _playTimerBeep(); // Last 2 minutes, 1 beep every 30 seconds
           // }
-          if (matchRemaining.inMinutes == 0 &&
-              matchRemaining.inSeconds % 10 == 0) {
-            _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
-          }
+          // if (matchRemaining.inMinutes == 0 &&
+          //     matchRemaining.inSeconds % 10 == 0) {
+          //   _playTimerBeep(); // Last 1 minute, 1 beep every 10 seconds
+          // }
 
           // if time reaches 00:00 after decrement, play time-over and stop
           if (matchRemaining.inMinutes == 0 && matchRemaining.inSeconds == 0) {
@@ -247,9 +269,9 @@ class MatchStore with ChangeNotifier {
         raidRemaining = raidRemaining - const Duration(seconds: 1);
 
         // Sound logic for Raid Timer
-        if (raidRemaining.inSeconds <= 10 && raidRemaining.inSeconds > 0) {
-          _playTimerBeep(); // Last 10 seconds, 1 beep every second
-        }
+        // if (raidRemaining.inSeconds <= 10 && raidRemaining.inSeconds > 0) {
+        //   _playTimerBeep(); // Last 10 seconds, 1 beep every second
+        // }
         // if (raidRemaining.inSeconds == 0) {
         //   _playTimerBuzzer(); // Raid over beep
         // }
@@ -272,8 +294,11 @@ class MatchStore with ChangeNotifier {
           raidRemaining = raidRemaining - const Duration(seconds: 1);
 
           // Sound logic for Raid Timer
-          if (raidRemaining.inSeconds <= 10 && raidRemaining.inSeconds > 0) {
-            _playTimerBeep(); // Last 10 seconds, 1 beep every second
+          // if (raidRemaining.inSeconds <= 10 && raidRemaining.inSeconds > 0) {
+          //   _playTimerBeep(); // Last 10 seconds, 1 beep every second
+          // }
+          if (raidRemaining.inSeconds == 11 && raidRemaining.inSeconds > 0) {
+            _playTensecSound(); // Last 10 seconds, 1 beep every second
           }
           // if (raidRemaining.inSeconds == 0) {
           //   _playTimerBuzzer(); // Raid over beep

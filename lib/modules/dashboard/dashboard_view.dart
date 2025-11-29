@@ -99,7 +99,7 @@ class _DashboardViewState extends State<DashboardView> {
                     ),
                     onPressed: () => matchStore.back(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4CAF50),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 16),
                       shape: RoundedRectangleBorder(
@@ -160,11 +160,12 @@ class _DashboardViewState extends State<DashboardView> {
                         ),
                       ],
                     ),
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.only(
+                        bottom: 5.0, top: 2.0, left: 10, right: 10.0),
                     child: Text(
                       textHeightBehavior: const TextHeightBehavior(
-                          applyHeightToLastDescent: false,
-                          applyHeightToFirstAscent: false,
+                          // applyHeightToLastDescent: false,
+                          // applyHeightToFirstAscent: false,
                           leadingDistribution: TextLeadingDistribution.even),
                       configStore.matchNo,
                       style: const TextStyle(
@@ -178,14 +179,14 @@ class _DashboardViewState extends State<DashboardView> {
                   ),
                 ],
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
 
               // Scoreboard and Timers Section
               Expanded(
-                flex: 1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     // Team A Panel
                     Expanded(
@@ -194,16 +195,14 @@ class _DashboardViewState extends State<DashboardView> {
                         configStore.teamA,
                         matchStore.teamAScore,
                         matchStore.teamAFouls,
-                        _homePlayerStatus,
+                        matchStore.teamAPlayerStatuses,
                         () => matchStore.incrementScoreA(),
                         () => matchStore.decrementScoreA(),
                         () => matchStore.recordFoulA(),
-                        (index) => setState(() {
-                          _homePlayerStatus[index] = !_homePlayerStatus[index];
-                        }),
+                        (index) => matchStore.togglePlayer(true, index),
                       ),
                     ),
-                    const SizedBox(width: 24),
+                    const SizedBox(width: 14),
 
                     // Center Timer Section
                     Column(
@@ -216,7 +215,14 @@ class _DashboardViewState extends State<DashboardView> {
                             applyHeightToFirstAscent: false,
                           ),
                           style: TextStyle(
-                            color: const Color(0xFF00FFAA),
+                            color: Color(0xFF00FFAA),
+                            shadows: [
+                              // Added text shadow for glow effect
+                              BoxShadow(
+                                color: Color(0xFF00FF00).withOpacity(0.5),
+                                blurRadius: 15,
+                              ),
+                            ],
                             fontSize: screenWidth < 600
                                 ? 80
                                 : screenWidth < 900
@@ -226,6 +232,7 @@ class _DashboardViewState extends State<DashboardView> {
                             fontFamily: 'digital7',
                           ),
                         ),
+                        SizedBox(),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -242,12 +249,23 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ],
                         ),
-                        Text(
-                          round.toString() + " half",
-                          style: const TextStyle(
-                            color: Color(0xFF4CAF50),
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
+                        Container(
+                          decoration: BoxDecoration(),
+                          child: Text(
+                            round.toString() + " HALF",
+                            style: TextStyle(
+                              color: Color(0xFF4CAF50),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w900,
+                              shadows: [
+                                // Added text shadow for glow effect
+                                BoxShadow(
+                                  color: Color(0xFF00FFCC).withOpacity(1),
+                                  blurRadius: 25,
+                                  spreadRadius: 1,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -267,6 +285,12 @@ class _DashboardViewState extends State<DashboardView> {
                             child: iconButton(Icons.sync, () {
                               matchStore.swapSides();
                               _playHalf(context);
+
+                              setState(() {
+                                final tmp = _homePlayerStatus;
+                                _homePlayerStatus = _awayPlayerStatus;
+                                _awayPlayerStatus = tmp;
+                              });
                             }),
                           ),
                         ),
@@ -277,7 +301,7 @@ class _DashboardViewState extends State<DashboardView> {
                             applyHeightToFirstAscent: false,
                           ),
                           style: TextStyle(
-                            color: const Color.fromARGB(255, 255, 0, 0),
+                            color: const Color(0xFFFF0000),
                             fontSize: screenWidth < 600
                                 ? 150
                                 : screenWidth < 900
@@ -285,8 +309,16 @@ class _DashboardViewState extends State<DashboardView> {
                                     : 185,
                             fontWeight: FontWeight.w900,
                             fontFamily: 'digital7',
+                            shadows: [
+                              // Added text shadow for glow effect
+                              BoxShadow(
+                                color: Color(0xFFFF0000).withOpacity(1),
+                                blurRadius: 15,
+                              ),
+                            ],
                           ),
                         ),
+                        SizedBox(),
                         Row(
                           children: [
                             timerButton(
@@ -313,18 +345,17 @@ class _DashboardViewState extends State<DashboardView> {
                         configStore.teamB,
                         matchStore.teamBScore,
                         matchStore.teamBFouls,
-                        _awayPlayerStatus,
+                        matchStore.teamBPlayerStatuses,
                         () => matchStore.incrementScoreB(),
                         () => matchStore.decrementScoreB(),
                         () => matchStore.recordFoulB(),
-                        (index) => setState(() {
-                          _awayPlayerStatus[index] = !_awayPlayerStatus[index];
-                        }),
+                        (index) => matchStore.togglePlayer(false, index),
                       ),
                     ),
                   ],
                 ),
               ),
+
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

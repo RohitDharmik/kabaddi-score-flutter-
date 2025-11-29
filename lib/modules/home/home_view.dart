@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // for date parsing
+import 'package:intl/intl.dart';
+import 'package:zo_animated_border/zo_animated_border.dart'; // for date parsing
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -11,7 +12,16 @@ class HomeView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.emoji_events, color: Colors.cyan, size: 80),
+            ZoRippleEffect(
+                minCircleSize: 150,
+                animationDuration: Duration(seconds: 5),
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                numberOfCircles: 5,
+                rippleColor: Color(
+                  0xFF3A82F8,
+                ).withOpacity(0.3),
+                child: Icon(Icons.emoji_events_outlined,
+                    color: Theme.of(context).colorScheme.onPrimary, size: 80)),
             const SizedBox(height: 20),
             const Text("THAKUR DIGITAL SCOREBOARD KOMAKHAN",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
@@ -21,7 +31,7 @@ class HomeView extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                   icon: const Icon(Icons.settings),
-                  label: const Text("Configure Match Settings"),
+                  label: const Text("Match Settings"),
                   onPressed: () => Navigator.pushNamed(context, '/config'),
                 ),
                 ElevatedButton(
