@@ -24,7 +24,11 @@ class HomeView extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onPrimary, size: 80)),
             const SizedBox(height: 20),
             const Text("THAKUR DIGITAL SCOREBOARD KOMAKHAN",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'digital7',
+                )),
             const SizedBox(height: 40),
             Wrap(
               spacing: 20,
@@ -61,13 +65,17 @@ class HomeView extends StatelessWidget {
                                   // "Date: 27/01/2026",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
+                                      fontFamily: 'digital7',
                                       fontSize: 16),
                                 ),
                                 SizedBox(height: 12),
                                 Text(
                                   // "this is a demo version.",
                                   "Your version is deprecated. please Contact the developer team.",
-                                  style: TextStyle(fontSize: 14),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'digital7',
+                                  ),
                                 ),
                               ],
                             ),

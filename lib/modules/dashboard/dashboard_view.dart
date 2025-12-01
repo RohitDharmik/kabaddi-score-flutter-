@@ -111,7 +111,10 @@ class _DashboardViewState extends State<DashboardView> {
                       label: const Text(
                         "Back",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w800),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'digital7',
+                        ),
                       ),
                     ),
                     Container(
@@ -133,13 +136,13 @@ class _DashboardViewState extends State<DashboardView> {
                         textHeightBehavior: const TextHeightBehavior(
                             applyHeightToLastDescent: false,
                             applyHeightToFirstAscent: false,
-                            leadingDistribution:
-                                TextLeadingDistribution.even),
+                            leadingDistribution: TextLeadingDistribution.even),
                         configStore.feild,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 30,
                           fontWeight: FontWeight.w500,
+                          fontFamily: 'digital7',
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -257,6 +260,7 @@ class _DashboardViewState extends State<DashboardView> {
                               color: Color(0xFF4CAF50),
                               fontSize: 30,
                               fontWeight: FontWeight.w900,
+                              fontFamily: 'digital7',
                               shadows: [
                                 // Added text shadow for glow effect
                                 BoxShadow(

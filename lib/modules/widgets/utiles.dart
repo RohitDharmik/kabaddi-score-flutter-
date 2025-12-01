@@ -96,6 +96,7 @@ Widget teamPanel(
               color: Theme.of(context).colorScheme.secondary,
               fontSize: 80,
               fontWeight: FontWeight.w800,
+              fontFamily: 'digital7',
             ),
             textAlign: TextAlign.center,
           ),
