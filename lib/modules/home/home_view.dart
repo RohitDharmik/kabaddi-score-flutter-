@@ -106,12 +106,12 @@ class HomeView extends StatelessWidget {
             Column(
               children: [
                 SvgPicture.asset(
-                  'assets/images/company_logo.svg', // Replace with actual logo path
+                  'assets/images/company_logo.jpeg', // Replace with actual logo path
                   height: 80,
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  '© 2025 Thakur Digital Scoreboard',
+                  '© 2025 36-Central.All rights reserved.',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -120,7 +120,7 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 const Text(
-                  'Developed by: Demo Developer (123-456-7890)',
+                  'Developed by: 36-Central (7987262422)',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
