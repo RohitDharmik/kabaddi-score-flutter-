@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // For SVG logo support
 import 'package:intl/intl.dart';
 import 'package:zo_animated_border/zo_animated_border.dart'; // for date parsing
 
@@ -12,6 +13,7 @@ class HomeView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Spacer(),
             ZoRippleEffect(
                 minCircleSize: 150,
                 animationDuration: Duration(seconds: 5),
@@ -97,7 +99,38 @@ class HomeView extends StatelessWidget {
                   child: const Text("Start Match"),
                 )
               ],
-            )
+            ),
+            const Spacer(), // Push trademark section to the bottom
+
+            // Trademark Section
+            Column(
+              children: [
+                SvgPicture.asset(
+                  'assets/images/company_logo.svg', // Replace with actual logo path
+                  height: 80,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  '© 2025 Thakur Digital Scoreboard',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Developed by: Demo Developer (123-456-7890)',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
           ],
         ),
       ),

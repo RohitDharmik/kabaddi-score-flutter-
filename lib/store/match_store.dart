@@ -70,6 +70,10 @@ class MatchStore with ChangeNotifier {
   void _playTensecSound() async {
     // You must place your sound files in assets/sounds/shortbeep.mp3
     // and declare the assets folder in pubspec.yaml
+    // stop any currently playing beep before starting a new one
+    try {
+      await _timerBeepPlayer.stop();
+    } catch (_) {}
     await _timerBeepPlayer.play(AssetSource('sounds/tensec.mp3'));
   }
   // void _timeOverSound() async {
@@ -190,6 +194,10 @@ class MatchStore with ChangeNotifier {
     if (isMatchRunning) {
       _matchTimer?.cancel();
       isMatchRunning = false;
+      // stop any timer-related beep audio when pausing
+      try {
+        _timerBeepPlayer.stop();
+      } catch (_) {}
       notifyListeners();
     } else {
       // If starting from full remaining time, treat as first start and play start sound
@@ -253,6 +261,10 @@ class MatchStore with ChangeNotifier {
       _matchTimer?.cancel();
       _matchTimer = null;
       isMatchRunning = false;
+      // stop any timer-related beep audio when stopping
+      try {
+        _timerBeepPlayer.stop();
+      } catch (_) {}
     } else {
       startMatch(matchDuration.inMinutes);
     }
@@ -265,6 +277,10 @@ class MatchStore with ChangeNotifier {
     matchRemaining = matchDuration;
     // _halfTimePlayed = false;
     // _startSoundPlayed = false;
+    // ensure beep player is stopped on reset
+    try {
+      _timerBeepPlayer.stop();
+    } catch (_) {}
     notifyListeners();
   }
 
@@ -298,6 +314,10 @@ class MatchStore with ChangeNotifier {
     if (isRaidRunning) {
       _raidTimer?.cancel();
       isRaidRunning = false;
+      // // stop any timer-related beep audio when pausing raid
+      // try {
+      //   _timerBeepPlayer.stop();
+      // } catch (_) {}
       notifyListeners();
     } else {
       _raidTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -329,12 +349,20 @@ class MatchStore with ChangeNotifier {
     _raidTimer = null;
     isRaidRunning = false;
     raidRemaining = raidDuration;
+    // stop any timer-related beep audio when stopping raid
+    try {
+      _timerBeepPlayer.stop();
+    } catch (_) {}
     notifyListeners();
   }
 
   void resetRaid() {
     stopRaid();
     raidRemaining = raidDuration;
+    // ensure beep player is stopped on reset
+    try {
+      _timerBeepPlayer.stop();
+    } catch (_) {}
     notifyListeners();
   }
 
