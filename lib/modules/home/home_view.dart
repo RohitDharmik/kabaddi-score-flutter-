@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // For SVG logo support
 import 'package:intl/intl.dart';
 import 'package:zo_animated_border/zo_animated_border.dart'; // for date parsing
 
@@ -105,7 +104,7 @@ class HomeView extends StatelessWidget {
             // Trademark Section
             Column(
               children: [
-                SvgPicture.asset(
+                Image.asset(
                   'assets/images/company_logo.jpeg', // Replace with actual logo path
                   height: 80,
                 ),
