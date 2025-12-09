@@ -92,11 +92,11 @@ class MatchStore with ChangeNotifier {
     await _timerBeepPlayer.play(AssetSource('sounds/halftime.mp3'));
   }
 
-  // void _playStartTimerSound() async {
-  //   // You must place your sound files in assets/sounds/shortbeep.mp3
-  //   // and declare the assets folder in pubspec.yaml
-  //   await _timerBeepPlayer.play(AssetSource('sounds/matchstart.mp3'));
-  // }
+  void _playStartTimerSound() async {
+    // You must place your sound files in assets/sounds/shortbeep.mp3
+    // and declare the assets folder in pubspec.yaml
+    await _timerBeepPlayer.play(AssetSource('sounds/matchstart.mp3'));
+  }
 
   void swapSides() {
     final tempScore = teamAScore;
@@ -139,8 +139,8 @@ class MatchStore with ChangeNotifier {
     matchRemaining = matchDuration;
     // new match: reset flags and play start sound
     // _halfTimePlayed = false;
-    // _startSoundPlayed = true;
-    // _playStartTimerSound();
+    _startSoundPlayed = true;
+    _playStartTimerSound();
 
     _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (matchRemaining.inSeconds <= 0) {
@@ -202,9 +202,9 @@ class MatchStore with ChangeNotifier {
     } else {
       // If starting from full remaining time, treat as first start and play start sound
       if (!_startSoundPlayed && matchRemaining == matchDuration) {
-        // _startSoundPlayed = true;
+        _startSoundPlayed = true;
         // _halfTimePlayed = false;
-        // _playStartTimerSound();
+        _playStartTimerSound();
       }
 
       _matchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -276,7 +276,7 @@ class MatchStore with ChangeNotifier {
     // isMatchRunning = false;
     matchRemaining = matchDuration;
     // _halfTimePlayed = false;
-    // _startSoundPlayed = false;
+    _startSoundPlayed = false;
     // ensure beep player is stopped on reset
     try {
       _timerBeepPlayer.stop();
