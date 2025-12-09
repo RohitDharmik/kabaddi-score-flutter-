@@ -306,7 +306,7 @@ class _DashboardViewState extends State<DashboardView> {
                               // label: 'Do or Die',
                               onPressed: () => _playDoOrDieSound(context),
                             ),
-                            // const SizedBox(width: 16),
+                            const SizedBox(width: 8),
                             soundButton(
                               icon: Icons.notifications_active,
                               // label: 'Buzzer',
