@@ -84,22 +84,26 @@ Widget teamPanel(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: Text(
-            textHeightBehavior: const TextHeightBehavior(
-                applyHeightToLastDescent: false,
-                applyHeightToFirstAscent: false,
-                leadingDistribution: TextLeadingDistribution.even),
-            teamName.toUpperCase(),
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-              fontSize: 80,
-              fontWeight: FontWeight.w800,
-              // fontFamily: 'digital7',
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
+            padding: const EdgeInsets.all(0.0),
+            child: Tooltip(
+              message: teamName, // Full name shown on hover
+              child: Text(
+                teamName.toUpperCase(),
+                textHeightBehavior: const TextHeightBehavior(
+                  applyHeightToLastDescent: false,
+                  applyHeightToFirstAscent: false,
+                  leadingDistribution: TextLeadingDistribution.even,
+                ),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 80,
+                  fontWeight: FontWeight.w800,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            )),
         Spacer(),
         Padding(
           padding: const EdgeInsets.all(0.0),
