@@ -18,22 +18,21 @@ Widget iconButton(IconData icon, VoidCallback onPressed) {
 
 Widget soundButton({
   required IconData icon,
-  required String label,
+  // required String label,
   required VoidCallback onPressed,
 }) {
-  return ElevatedButton.icon(
+  return IconButton(
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
       backgroundColor: AppTheme.darkTheme.primaryColor,
       foregroundColor: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: const BorderSide(color: Color(0xFF4A4A5A), width: 1),
       ),
     ),
     icon: Icon(icon, size: 20),
-    label: Text(label),
   );
 }
 

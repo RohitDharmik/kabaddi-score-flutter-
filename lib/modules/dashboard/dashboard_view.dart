@@ -298,6 +298,22 @@ class _DashboardViewState extends State<DashboardView> {
                             }),
                           ),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            soundButton(
+                              icon: Icons.volume_up,
+                              // label: 'Do or Die',
+                              onPressed: () => _playDoOrDieSound(context),
+                            ),
+                            // const SizedBox(width: 16),
+                            soundButton(
+                              icon: Icons.notifications_active,
+                              // label: 'Buzzer',
+                              onPressed: () => _playBuzzerSound(context),
+                            ),
+                          ],
+                        ),
                         Text(
                           formatDurationRaid(matchStore.raidRemaining),
                           textHeightBehavior: const TextHeightBehavior(
@@ -361,22 +377,6 @@ class _DashboardViewState extends State<DashboardView> {
               ),
 
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  soundButton(
-                    icon: Icons.volume_up,
-                    label: 'Do or Die',
-                    onPressed: () => _playDoOrDieSound(context),
-                  ),
-                  // const SizedBox(width: 16),
-                  soundButton(
-                    icon: Icons.notifications_active,
-                    label: 'Buzzer',
-                    onPressed: () => _playBuzzerSound(context),
-                  ),
-                ],
-              ),
             ],
           ),
         ),
