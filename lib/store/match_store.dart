@@ -396,6 +396,60 @@ class MatchStore with ChangeNotifier {
     notifyListeners();
   }
 
+  int nextTeamAPlayer = 0;
+  int nextTeamBPlayer = 0;
+
+  // void nextOutTeamA() {
+  //   if (nextTeamAPlayer < teamAPlayerStatuses.length) {
+  //     teamAPlayerStatuses[nextTeamAPlayer] = false;
+  //     nextTeamAPlayer++;
+  //     notifyListeners();
+  //   }
+  // }
+
+  void outNextPlayerA() {
+    final idx = teamAPlayerStatuses.indexOf(true);
+
+    if (idx != -1) {
+      teamAPlayerStatuses[idx] = false;
+      notifyListeners();
+    }
+  }
+
+  void inNextPlayerA() {
+    final idx = teamAPlayerStatuses.lastIndexOf(false);
+
+    if (idx != -1) {
+      teamAPlayerStatuses[idx] = true;
+      notifyListeners();
+    }
+  }
+
+  void outNextPlayerB() {
+    final idx = teamBPlayerStatuses.indexOf(true);
+
+    if (idx != -1) {
+      teamBPlayerStatuses[idx] = false;
+      notifyListeners();
+    }
+  }
+
+  void inNextPlayerB() {
+    final idx = teamBPlayerStatuses.lastIndexOf(false);
+
+    if (idx != -1) {
+      teamBPlayerStatuses[idx] = true;
+      notifyListeners();
+    }
+  }
+  // void nextOutTeamB() {
+  //   if (nextTeamBPlayer < teamBPlayerStatuses.length) {
+  //     teamBPlayerStatuses[nextTeamBPlayer] = false;
+  //     nextTeamBPlayer++;
+  //     notifyListeners();
+  //   }
+  // }
+
   void back(BuildContext context) {
     Navigator.pop(context);
     resetAll();

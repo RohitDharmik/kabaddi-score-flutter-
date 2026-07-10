@@ -20,7 +20,10 @@ class _DashboardViewState extends State<DashboardView> {
   final FocusNode _focusNode = FocusNode();
   List<bool> _homePlayerStatus = List.generate(7, (index) => true);
   List<bool> _awayPlayerStatus = List.generate(7, (index) => true);
-
+  List<bool> teamADots = [true, true, true];
+  List<bool> teamBDots = [true, true, true];
+  int teamADotIndex = 0;
+  int teamBDotIndex = 0;
   String formatDuration(Duration d) {
     final minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
     final seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
@@ -74,12 +77,132 @@ class _DashboardViewState extends State<DashboardView> {
     return RawKeyboardListener(
       focusNode: _focusNode,
       onKey: (RawKeyEvent event) {
-        if (event is RawKeyDownEvent) {
-          if (event.logicalKey == LogicalKeyboardKey.keyN) {
-            final ms = context.read<MatchStore>();
+        if (event is! RawKeyDownEvent) return;
+
+        final ms = context.read<MatchStore>();
+
+        switch (event.logicalKey) {
+          // Match Timer Start/Pause
+          case LogicalKeyboardKey.keyN:
             ms.pauseAndPlay();
             ms.pauseAndPlayRaid();
-          }
+            break;
+
+          // Team A +1
+          case LogicalKeyboardKey.keyF:
+            ms.incrementScoreA();
+            break;
+
+          // Team A -1
+          case LogicalKeyboardKey.keyD:
+            ms.decrementScoreA();
+            break;
+
+          // Team B +1
+          case LogicalKeyboardKey.keyJ:
+            ms.incrementScoreB();
+            break;
+
+          // Team B -1
+          case LogicalKeyboardKey.keyK:
+            ms.decrementScoreB();
+            break;
+
+          // Do or Die Sound
+          case LogicalKeyboardKey.keyZ:
+            _playDoOrDieSound(context);
+            break;
+
+          // Buzzer Sound
+          case LogicalKeyboardKey.keyX:
+            _playBuzzerSound(context);
+            break;
+
+          // Half Change
+          // case LogicalKeyboardKey.keyH:
+          //   _playHalf(context);
+          //   break;
+
+          case LogicalKeyboardKey.keyT:
+            matchStore.pauseAndPlay;
+            break;
+          case LogicalKeyboardKey.keyY:
+            matchStore.resetMatch;
+            break;
+          case LogicalKeyboardKey.keyG:
+            matchStore.pauseAndPlayRaid;
+            break;
+          case LogicalKeyboardKey.keyH:
+            matchStore.resetRaid;
+            break;
+
+// index problem
+          // Team B Green (Undo last red)
+          case LogicalKeyboardKey.keyO:
+            matchStore.inNextPlayerB();
+            break;
+
+// Team B Red
+          case LogicalKeyboardKey.keyP:
+            matchStore.outNextPlayerB();
+            break;
+
+// Team A Green (Undo last red)
+          case LogicalKeyboardKey.keyW:
+            matchStore.inNextPlayerA();
+            break;
+
+// Team A Red
+          case LogicalKeyboardKey.keyQ:
+            matchStore.outNextPlayerA();
+            break;
+
+          //team a dot green
+          case LogicalKeyboardKey.keyE:
+            setState(() {
+              final idx = teamADots.lastIndexOf(false);
+
+              if (idx != -1) {
+                teamADots[idx] = true;
+              }
+            });
+            break;
+          //team a dot red
+          case LogicalKeyboardKey.keyR:
+            setState(() {
+              final idx = teamADots.indexOf(true);
+
+              if (idx != -1) {
+                teamADots[idx] = false;
+              }
+            });
+            break;
+          //team b dot green
+          case LogicalKeyboardKey.keyU:
+            setState(() {
+              final idx = teamBDots.lastIndexOf(false);
+
+              if (idx != -1) {
+                teamBDots[idx] = true;
+              }
+            });
+            break;
+          //team b dot red
+          case LogicalKeyboardKey.keyI:
+            setState(() {
+              final idx = teamBDots.indexOf(true);
+
+              if (idx != -1) {
+                teamBDots[idx] = false;
+              }
+            });
+            break;
+          // case LogicalKeyboardKey.keyH:
+          //   matchStore.resetRaid;
+          //   break;
+
+          default:
+            break;
         }
       },
       child: Scaffold(
@@ -258,7 +381,7 @@ class _DashboardViewState extends State<DashboardView> {
                             round.toString() + " HALF",
                             style: TextStyle(
                               color: Color(0xFF4CAF50),
-                              fontSize: 30,
+                              fontSize: 60,
                               fontWeight: FontWeight.w900,
                               fontFamily: 'digital7',
                               shadows: [
@@ -363,18 +486,50 @@ class _DashboardViewState extends State<DashboardView> {
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  soundButton(
-                    icon: Icons.volume_up,
-                    label: 'Do or Die',
-                    onPressed: () => _playDoOrDieSound(context),
-                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 20.00,
+                      children: [
+                        soundButton(
+                          icon: Icons.volume_up,
+                          label: 'Do or Die',
+                          onPressed: () => _playDoOrDieSound(context),
+                        ),
+                        teamDots(
+                          teamName: configStore.teamA,
+                          dots: teamADots,
+                          onTap: (index) {
+                            setState(() {
+                              teamADots[index] = !teamADots[index];
+                            });
+                          },
+                        ),
+                      ]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 20.00,
+                      children: [
+                        teamDots(
+                          teamName: configStore.teamB,
+                          dots: teamBDots,
+                          onTap: (index) {
+                            setState(() {
+                              teamBDots[index] = !teamBDots[index];
+                            });
+                          },
+                        ),
+                        soundButton(
+                          icon: Icons.notifications_active,
+                          label: 'Buzzer',
+                          onPressed: () => _playBuzzerSound(context),
+                        ),
+                      ])
+
                   // const SizedBox(width: 16),
-                  soundButton(
-                    icon: Icons.notifications_active,
-                    label: 'Buzzer',
-                    onPressed: () => _playBuzzerSound(context),
-                  ),
                 ],
               ),
             ],

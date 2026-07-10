@@ -203,3 +203,70 @@ Widget playerStatusRow(List<bool> playerStatuses, Function(int) onPlayerTap) {
     }),
   );
 }
+
+Widget teamDots({
+  required String teamName,
+  required List<bool> dots,
+  required Function(int) onTap,
+}) {
+  return Column(
+    children: [
+      // Text(
+      //   teamName,
+      //   style: const TextStyle(
+      //     color: Colors.white,
+      //     fontSize: 18,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      // ),
+      const SizedBox(height: 4),
+      Row(
+        children: List.generate(
+          3,
+          (index) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: GestureDetector(
+              onTap: () => onTap(index),
+              child: ZoAnimatedGradientBorder(
+                borderRadius: 40,
+                borderThickness: 1,
+                animationDuration: const Duration(seconds: 3),
+                glowOpacity: 1.0,
+                animationCurve: Curves.easeInOut,
+                gradientColor: dots[index]
+                    ? [
+                        const Color(0xFF00FF00),
+                        const Color(0xFF05F005),
+                        const Color.fromARGB(224, 119, 240, 49),
+                        const Color(0xE21EF91E),
+                      ]
+                    : [
+                        const Color(0xFFFF0000),
+                        const Color(0xFFFF0505),
+                        const Color(0xFFE13131),
+                        const Color(0xFFE21E1E),
+                      ],
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: dots[index] ? Colors.green : Colors.red,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: (dots[index] ? Colors.green : Colors.red)
+                            .withOpacity(0.7),
+                        blurRadius: 8,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      )
+    ],
+  );
+}
