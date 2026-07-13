@@ -247,8 +247,8 @@ Widget teamDots({
                         const Color(0xFFE21E1E),
                       ],
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: 16,
+                  height: 16,
                   decoration: BoxDecoration(
                     color: dots[index] ? Colors.green : Colors.red,
                     shape: BoxShape.circle,

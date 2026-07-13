@@ -118,22 +118,19 @@ class _DashboardViewState extends State<DashboardView> {
             _playBuzzerSound(context);
             break;
 
-          // Half Change
-          // case LogicalKeyboardKey.keyH:
-          //   _playHalf(context);
-          //   break;
-
           case LogicalKeyboardKey.keyT:
-            matchStore.pauseAndPlay;
+            matchStore.pauseAndPlay();
             break;
+
           case LogicalKeyboardKey.keyY:
-            matchStore.resetMatch;
+            matchStore.resetMatch();
             break;
+
           case LogicalKeyboardKey.keyG:
-            matchStore.pauseAndPlayRaid;
+            matchStore.pauseAndPlayRaid();
             break;
           case LogicalKeyboardKey.keyH:
-            matchStore.resetRaid;
+            matchStore.resetRaid();
             break;
 
 // index problem
@@ -261,9 +258,16 @@ class _DashboardViewState extends State<DashboardView> {
                             applyHeightToFirstAscent: false,
                             leadingDistribution: TextLeadingDistribution.even),
                         configStore.feild,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
+                        style: TextStyle(
+                          color: Color(0xFF00FFAA),
+                          shadows: [
+                            // Added text shadow for glow effect
+                            BoxShadow(
+                              color: Color(0xFF00FF00).withOpacity(0.5),
+                              blurRadius: 15,
+                            ),
+                          ],
+                          fontSize: 45,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'digital7',
                         ),
@@ -293,8 +297,16 @@ class _DashboardViewState extends State<DashboardView> {
                             applyHeightToFirstAscent: false,
                             leadingDistribution: TextLeadingDistribution.even),
                         configStore.matchNo,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: Color(0xFF00FFAA),
+                          shadows: [
+                            // Added text shadow for glow effect
+                            BoxShadow(
+                              color: Color(0xFF00FFCC).withOpacity(1),
+                              blurRadius: 25,
+                              spreadRadius: 1,
+                            ),
+                          ],
                           fontSize: 50,
                           fontWeight: FontWeight.w900,
                           fontFamily: 'digital7',
