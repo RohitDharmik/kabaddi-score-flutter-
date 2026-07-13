@@ -44,10 +44,10 @@ class HomeView extends StatelessWidget {
                     // current date
                     DateTime today = DateTime.now();
 
-                    DateTime cutoffDate =
-                        DateFormat("dd/MM/yyyy").parse("25/07/2026");
                     // DateTime cutoffDate =
-                    //     DateFormat("dd/MM/yyyy").parse("15/12/2027");
+                    //     DateFormat("dd/MM/yyyy").parse("25/07/2026");
+                    DateTime cutoffDate =
+                        DateFormat("dd/MM/yyyy").parse("15/12/2027");
 
                     if (today.isAfter(cutoffDate)) {
                       showDialog(
